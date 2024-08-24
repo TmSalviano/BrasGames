@@ -36,6 +36,20 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.MapGet("/", () => "I am the Sun God!!! I am untatered and my legion knows no bounds!!!");
+app.MapGet("/test", 
+    async () => 
+    {
+        var testMODEL = new SwaggerTestModel() {
+            FirstName = "Tiago",
+            LastName = "Salviano",
+            Age = 23
+        };
+
+        return testMODEL;
+    }
+        
+);
+
+
 
 app.Run("http://localhost:3000");
