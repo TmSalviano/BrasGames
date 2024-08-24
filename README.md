@@ -6,7 +6,7 @@ Showcase of the ASP.NET Minimal API
 ---
 
 ## The Journey Begins
-I am a stubborn brazilian gamer ready to give my life to realize my dream: Become rich by only selling brazilian games (yes, you do have some mental illnesses). But as a solo entrepeneur you have to create an API to manage the products, staff and the money of your business. Can I succeed or will I fail miserably and drive my game store to bankruptcy?
+I am a stubborn brazilian gamer ready to give my life to realize my dream: Become rich by only selling brazilian games (yes, I have some mental illnesses). But as a solo entrepeneur I have to create an API to manage the products, staff and the money of your business. Can I succeed or will I fail miserably and drive my game store to bankruptcy?
 
 ## 📝 Table of Contents
 
