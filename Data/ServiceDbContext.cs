@@ -13,6 +13,6 @@ namespace BrasGames.Data
 
         }
 
-        DbSet<ServiceTestModel> serviceTestModels = default!;
+        public DbSet<ServiceTestModel> serviceTestModels { get; set; } = default!;
     }
 }

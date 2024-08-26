@@ -37,7 +37,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.MapGet("/test", 
-    async () => 
+    () => 
     {
         var testMODEL = new SwaggerTestModel() {
             FirstName = "Tiago",
