@@ -36,20 +36,6 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.MapGet("/test", 
-    () => 
-    {
-        var testMODEL = new SwaggerTestModel() {
-            FirstName = "Tiago",
-            LastName = "Salviano",
-            Age = 23
-        };
-
-        return testMODEL;
-    }
-        
-);
-
 
 
 app.Run("http://localhost:3000");
