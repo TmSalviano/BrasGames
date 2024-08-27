@@ -9,7 +9,7 @@ namespace BrasGames.Model.BusinessModels
     public class DayStats
     {
         [Key, DataType(DataType.Date)]
-        public DateTime Id { get; set; }
+        public DateTime Day { get; set; }
 
         [Range(0, int.MaxValue)]
         public int TotalConsumers { get; set; }

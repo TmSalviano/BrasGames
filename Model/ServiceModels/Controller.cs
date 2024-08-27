@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 public class Controller {
+    [Key]
+    public int Id { get; set; }
+
     [Required, NotNull]
     public string? Name { get; set; }   
     [Required, NotNull] 

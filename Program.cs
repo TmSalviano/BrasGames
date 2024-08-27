@@ -34,8 +34,6 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
-
-
+        
 
 app.Run("http://localhost:3000");

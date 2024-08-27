@@ -12,7 +12,6 @@ namespace BrasGames.Model.ServiceModels
     [OrderListValidation]
     public class Order
     {
-        [Key]
         public int Id { get; set; }
 
         public List<Console>? Consoles{ get; set; }

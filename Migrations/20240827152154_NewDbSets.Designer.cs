@@ -3,6 +3,7 @@ using System;
 using BrasGames.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,16 +11,18 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BrasGames.Migrations
 {
     [DbContext(typeof(BusinessDbContext))]
-    partial class BusinessDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240827152154_NewDbSets")]
+    partial class NewDbSets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
             modelBuilder.Entity("BrasGames.Model.BusinessModels.DayStats", b =>
                 {
-                    b.Property<DateTime>("Day")
+                    b.Property<DateTime>("Id")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("TotalConsumers")
@@ -31,7 +34,7 @@ namespace BrasGames.Migrations
                     b.Property<int>("TotalProfit")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Day");
+                    b.HasKey("Id");
 
                     b.ToTable("Agenda");
                 });
