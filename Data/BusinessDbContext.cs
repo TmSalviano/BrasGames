@@ -17,5 +17,10 @@ namespace BrasGames.Data
 
         public DbSet<DayStats> Agenda { get; set; } = default!;
         public DbSet<Employee> Employees { get; set; } = default!;
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder) {
+            modelBuilder.Entity<DayStats>().HasKey(e => e.Id);
+        }
     }
 }
