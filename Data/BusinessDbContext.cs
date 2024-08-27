@@ -4,6 +4,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using BrasGames.Model;
+using BrasGames.Model.BusinessModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BrasGames.Data
@@ -14,6 +15,7 @@ namespace BrasGames.Data
 
         }
 
-        public DbSet<BusinessTestModel> businessTestModels { get; set; } = default!;
+        public DbSet<DayStats> Agenda { get; set; } = default!;
+        public DbSet<Employee> Employees { get; set; } = default!;
     }
 }

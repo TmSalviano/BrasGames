@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BrasGames.Model;
+using BrasGames.Model.ServiceModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace BrasGames.Data
@@ -13,6 +13,10 @@ namespace BrasGames.Data
 
         }
 
-        public DbSet<ServiceTestModel> serviceTestModels { get; set; } = default!;
+        public DbSet<Model.ServiceModels.Console> Consoles { get; set; } = default!;
+        public DbSet<Game> Games { get; set;} = default!;
+        public DbSet<Controller> Controllers{ get; set; } = default!;
+        public DbSet<Order> Orders { get; set; } = default!;
+
     }
 }
