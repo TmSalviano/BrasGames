@@ -1,0 +1,11 @@
+### 
+PUT http://localhost:5103/service/controller/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Updated Controller Name",
+  "type": "Updated Type",
+  "price": 123.45,
+  "year": 2024
+}

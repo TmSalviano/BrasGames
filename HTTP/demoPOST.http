@@ -1,0 +1,11 @@
+POST http://localhost:5103/service/controller/
+Content-Type: application/json
+
+{
+  "name": "Test controller",
+  "type": "Type b",
+  "price": 999.99,
+  "year": 2000
+}
+
+
