@@ -27,49 +27,16 @@ var service = app.MapGroup("/service");
 
 var controller = service.MapGroup("/controller");
 
-controller.MapGet("/", async (ServiceDbContext db) => {
-    var result = await db.Controllers.ToListAsync();
-    return Results.Ok(result);
-});
+controller.MapGet("/", GetControllers);
 
-controller.MapGet("/{id:int}", async (int id, ServiceDbContext db) => {
-    var result = await db.Controllers.FindAsync(id);
-    if (result is null)
-        return Results.NotFound();
-    return Results.Ok(result);
-});
-controller.MapPost("/", async (Controller controller, ServiceDbContext db) => {
-    await db.Controllers.AddAsync(controller);
-    await db.SaveChangesAsync();
-    return Results.Created("/service/controller/" + controller.Id, controller);
-});
+controller.MapGet("/{id:int}", GetController);
+controller.MapPost("/", PostController);
 
-controller.MapPut("/{id}", async  (int id, Controller inputController, ServiceDbContext db) => {
-    var todo = await db.Controllers.FindAsync(id);
+controller.MapPut("/{id}", PutController);
 
-    if (todo is null) return Results.NotFound();
+controller.MapDelete("/{id}", DeleteController);
 
-    todo.Name = inputController.Name;
-    todo.Type = inputController.Type;
-    todo.Price = inputController.Price;
-    todo.Id = inputController.Id;
-    todo.Year = inputController.Year;
-
-    await db.SaveChangesAsync();
-    
-    return Results.NoContent();
-});
-
-controller.MapDelete("/{id}", async  (int id, ServiceDbContext db) => {
-    if (await db.Controllers.FindAsync(id) is Controller controller)
-    {
-        db.Controllers.Remove(controller);
-        await db.SaveChangesAsync();
-        return Results.NoContent();
-    }
-
-    return Results.NotFound();
-});
+controller.MapDelete("/", DeleteAllControllers);
 
 
 var business = app.MapGroup("/business");
@@ -79,5 +46,63 @@ var business = app.MapGroup("/business");
 app.Run();
 
 //Service classes
+
+static async Task<IResult> GetControllers(ServiceDbContext db) {
+    return TypedResults.Ok(await db.Controllers.ToListAsync());
+}
+
+static  async Task<IResult> GetController(int id, ServiceDbContext db) {
+    var searchResult = await db.Controllers.FindAsync(id);
+    if (searchResult is null)
+        return TypedResults.NotFound();
+    return TypedResults.Ok(searchResult);
+}
+
+static async Task<IResult> PostController(Controller userController, ServiceDbContext db) {
+    await db.Controllers.AddAsync(userController);
+    await db.SaveChangesAsync();
+    return TypedResults.Created("/service/controller/" + userController.Id, userController);
+}
+
+static async Task<IResult> PutController(int id, Controller userController, ServiceDbContext db) {
+    var result = await db.Controllers.FindAsync(id);
+    if (result is null)
+        return TypedResults.NotFound();
+
+    result.Id = userController.Id;
+    result.Type = userController.Type;
+    result.Name = userController.Name;
+    result.Year = userController.Year;
+    result.Price = userController.Price;
+
+    await db.SaveChangesAsync();
+
+    return TypedResults.NotFound();
+}
+
+static async Task<IResult> DeleteController(int id, ServiceDbContext db) {
+    var result = await db.Controllers.FindAsync(id);
+    if (result is null)
+        return TypedResults.NotFound();
+    
+    db.Controllers.Remove(result);
+    await db.SaveChangesAsync();
+
+    return TypedResults.NoContent();
+}
+
+static async Task<IResult> DeleteAllControllers(ServiceDbContext db) {
+    var result = await db.Controllers.ToListAsync();
+    if (result is null)
+        return TypedResults.NotFound();
+    
+    foreach (var controller in result) {
+        db.Controllers.Remove(controller);
+    }
+    await db.SaveChangesAsync();
+
+    return TypedResults.NoContent();
+}
+
 
 //Business classes
