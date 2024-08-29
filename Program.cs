@@ -15,27 +15,12 @@ if (builder.Environment.IsDevelopment()) {
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 }
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddOpenApiDocument(config =>
-{
-    config.DocumentName = "BrasGames";
-    config.Title = "BrasGames v1";
-    config.Version = "v1";
-});
 
 
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
-    app.UseOpenApi();
-    app.UseSwaggerUi(config =>
-    {
-        config.DocumentTitle = "BrasGames";
-        //config.Path determines the path to access the swagger UI        
-        config.Path = "/swagger";
-        config.DocumentPath = "/swagger/{documentName}/swagger.json";
-        config.DocExpansion = "list";
-    });
+   
 }
 
 var service = app.MapGroup("/service");
