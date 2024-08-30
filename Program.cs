@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-/// !!! DO NOT FORGET TO TRY TO USE GENERIC TYPEDRESULT METHODS!!!
+// !!! DO NOT FORGET TO TRY TO USE GENERIC TYPEDRESULT METHODS!!!
+// Dont forget the DTO's 
+
 //Connecting to the Databases
 builder.Services.AddDbContext<BusinessDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("BusinessDbConnection")));
 builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("ServiceDbConnection")));
