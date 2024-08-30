@@ -23,5 +23,6 @@ namespace BrasGames.Model.ServiceModels
         
         [Range(0, float.MaxValue), DataType(DataType.Currency)]
         public float Price { get; set; }
+
     }
 }
