@@ -123,6 +123,10 @@ console.MapDelete("/", async (BasicRESTService<ConsoleModel> basicRESTService) =
 
 var business = app.MapGroup("/business");
 
+var employee = business.MapGroup("/employee");
+
+var agenda = business.MapGroup("/agenda");
+
 
 
 app.Run();
