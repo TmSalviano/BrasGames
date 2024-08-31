@@ -1,11 +1,24 @@
 ### 
-PUT http://localhost:5103/service/controller/1
+PUT http://localhost:5103/service/controller/6
 Content-Type: application/json
 
 {
-  "id": 1,
+  "id": 6,
   "name": "Updated Controller Name",
   "type": "Updated Type",
   "price": 123.45,
   "year": 2024
+}
+
+###
+
+PUT http://localhost:5103/service/controller/5
+Content-Type: application/json
+
+{
+  "id": 5,
+  "type": "ThisShouldWorkNow",
+  "name": "UpdatedName",
+  "year": 2022,
+  "price": 299.99
 }

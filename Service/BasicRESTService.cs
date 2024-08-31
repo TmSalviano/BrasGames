@@ -212,7 +212,7 @@ public class BasicRESTService<T> where T : class
         return TypedResults.Problem("typeof generic class parameter is not equal to typeof any service model");
     }
 
-    public async Task<IResult> DeleteAllControllers()
+    public async Task<IResult> DeleteAllCModels()
     {
 
         if (_tType == _serviceModelTypes[0]) {
