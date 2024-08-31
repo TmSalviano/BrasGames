@@ -1,4 +1,5 @@
 using BrasGames.Data;
+using BrasGames.Model.BusinessModels;
 using BrasGames.Model.ServiceModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BusinessDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("BusinessDbConnection")));
 builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("ServiceDbConnection")));
 builder.Services.AddScoped(typeof(BasicRESTService<>));
+builder.Services.AddScoped(typeof(BasicRESTBusiness<>));
 
 
 if (builder.Environment.IsDevelopment()) {
@@ -33,9 +35,9 @@ if (app.Environment.IsDevelopment())
 
 var service = app.MapGroup("/service");
 
-//Controller: HTTP Basic Methods
 var controller = service.MapGroup("/controller");
 
+//Controller: HTTP Basic Methods
 controller.MapGet("/", async (BasicRESTService<Controller> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
@@ -55,9 +57,9 @@ controller.MapDelete("/", async (BasicRESTService<Controller> basicRESTService) 
     return await basicRESTService.DeleteAllCModels();
 });
 
-//Game: HTTP Basic Methods
 var game = service.MapGroup("/game");
 
+//Game: HTTP Basic Methods
 game.MapGet("/", async (BasicRESTService<Game> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
@@ -77,9 +79,9 @@ game.MapDelete("/", async (BasicRESTService<Game> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
 
-//Order: HTTP Basic Methods
 var order = service.MapGroup("/order");
 
+//Order: HTTP Basic Methods
 order.MapGet("/", async (BasicRESTService<Order> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
@@ -99,9 +101,9 @@ order.MapDelete("/", async (BasicRESTService<Order> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
 
-//Console: HTTP Basic Methods. Using ConsoleModel as ServiceModels.Console
 var console = service.MapGroup("/console");
 
+//Console: HTTP Basic Methods. Using ConsoleModel as ServiceModels.Console
 console.MapGet("/", async (BasicRESTService<ConsoleModel> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
@@ -125,9 +127,48 @@ var business = app.MapGroup("/business");
 
 var employee = business.MapGroup("/employee");
 
+//Employee: HTTP Basic Methods.
+employee.MapGet("/", async (BasicRESTBusiness<Employee> basicRESTBusiness) => {
+    return await basicRESTBusiness.GetAll();
+});
+employee.MapGet("/{id:int}", async (int id, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+    return await basicRESTBusiness.GetId(id);
+});
+employee.MapPost("/", async (Employee employee, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+    return await basicRESTBusiness.PostModel(employee);
+});
+employee.MapPut("/{id}", async (int id, Employee employee, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+    return await basicRESTBusiness.PutModel(id, employee);
+});
+employee.MapDelete("/{id}", async (int id, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+    return await basicRESTBusiness.DeleteModel(id);
+});
+employee.MapDelete("/", async (BasicRESTBusiness<Employee> basicRESTBusiness) => {
+    return await basicRESTBusiness.DeleteAllModels();
+});
+
+
 var agenda = business.MapGroup("/agenda");
 
-
+//DayStats: HTTP Basic Methods.
+agenda.MapGet("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+    return await basicRESTBusiness.GetAll();
+});
+agenda.MapGet("/{id:int}", async (int id, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+    return await basicRESTBusiness.GetId(id);
+});
+agenda.MapPost("/", async (DayStats dayStats, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+    return await basicRESTBusiness.PostModel(dayStats);
+});
+agenda.MapPut("/{id}", async (int id, DayStats dayStats, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+    return await basicRESTBusiness.PutModel(id, dayStats);
+});
+agenda.MapDelete("/{id}", async (int id, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+    return await basicRESTBusiness.DeleteModel(id);
+});
+agenda.MapDelete("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+    return await basicRESTBusiness.DeleteAllModels();
+});
 
 app.Run();
 

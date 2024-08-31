@@ -125,7 +125,7 @@ public class BasicRESTBusiness<T> where T : class {
         return TypedResults.Problem("Type T doesn't correspond to any of the Business Models.");
     }
 
-    public async Task<IResult> DeleteAll() {
+    public async Task<IResult> DeleteAllModels() {
         //Employees
         if (typeof(T) == _businessModelTypes[0]) {
             var result = await _db.Employees.ToListAsync();
@@ -135,7 +135,7 @@ public class BasicRESTBusiness<T> where T : class {
             foreach (var model in result) {
                 _db.Remove(model);
             }
-            
+
             await _db.SaveChangesAsync();
             return TypedResults.NoContent();
         }
