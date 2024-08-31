@@ -8,7 +8,10 @@ namespace BrasGames.Model.BusinessModels
 {
     public class DayStats
     {
-        [Key, DataType(DataType.Date)]
+        [Key]
+        public int Id { get; set; }
+        
+        [DataType(DataType.Date)]
         public DateTime Day { get; set; }
 
         [Range(0, int.MaxValue)]

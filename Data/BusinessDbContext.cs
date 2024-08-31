@@ -20,7 +20,8 @@ namespace BrasGames.Data
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder) {
-            modelBuilder.Entity<DayStats>().HasKey(e => e.Day);
+            modelBuilder.Entity<DayStats>().HasKey(dayStats => dayStats.Id);
+            modelBuilder.Entity<DayStats>().HasIndex(dayStats => dayStats.Day).IsUnique();
         }
     }
 }
