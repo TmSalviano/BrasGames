@@ -1,12 +1,15 @@
 using BrasGames.Data;
+using BrasGames.Model.ServiceModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using ConsoleModel = BrasGames.Model.ServiceModels.Console;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// !!! DO NOT FORGET TO TRY TO USE GENERIC TYPEDRESULT METHODS!!!
+// TypedResult Methods will be used for HTTP methods with complex LINQ query operations.
+// Basic RESTApi operations should be done with user defined Services and registered in Program.cs
 // Dont forget the DTO's 
 
 //Connecting to the Databases
@@ -30,7 +33,7 @@ if (app.Environment.IsDevelopment())
 
 var service = app.MapGroup("/service");
 
-//Controller HTTP Basic Methods
+//Controller: HTTP Basic Methods
 var controller = service.MapGroup("/controller");
 
 controller.MapGet("/", async (BasicRESTService<Controller> basicRESTService) => {
@@ -52,6 +55,71 @@ controller.MapDelete("/", async (BasicRESTService<Controller> basicRESTService) 
     return await basicRESTService.DeleteAllCModels();
 });
 
+//Game: HTTP Basic Methods
+var game = service.MapGroup("/game");
+
+game.MapGet("/", async (BasicRESTService<Game> basicRESTService) => {
+    return await basicRESTService.GetAll();
+});
+game.MapGet("/{id:int}", async (int id, BasicRESTService<Game> basicRESTService) => {
+    return await basicRESTService.GetId(id);
+});
+game.MapPost("/", async (Game game, BasicRESTService<Game> basicRESTService) => {
+    return await basicRESTService.PostModel(game);
+});
+game.MapPut("/{id}", async (int id, Game game, BasicRESTService<Game> basicRESTService) => {
+    return await basicRESTService.PutModel(id, game);
+});
+game.MapDelete("/{id}", async (int id, BasicRESTService<Game> basicRESTService) => {
+    return await basicRESTService.DeleteModel(id);
+});
+game.MapDelete("/", async (BasicRESTService<Game> basicRESTService) => {
+    return await basicRESTService.DeleteAllCModels();
+});
+
+//Order: HTTP Basic Methods
+var order = service.MapGroup("/order");
+
+order.MapGet("/", async (BasicRESTService<Order> basicRESTService) => {
+    return await basicRESTService.GetAll();
+});
+order.MapGet("/{id:int}", async (int id, BasicRESTService<Order> basicRESTService) => {
+    return await basicRESTService.GetId(id);
+});
+order.MapPost("/", async (Order order, BasicRESTService<Order> basicRESTService) => {
+    return await basicRESTService.PostModel(order);
+});
+order.MapPut("/{id}", async (int id, Order order, BasicRESTService<Order> basicRESTService) => {
+    return await basicRESTService.PutModel(id, order);
+});
+order.MapDelete("/{id}", async (int id, BasicRESTService<Order> basicRESTService) => {
+    return await basicRESTService.DeleteModel(id);
+});
+order.MapDelete("/", async (BasicRESTService<Order> basicRESTService) => {
+    return await basicRESTService.DeleteAllCModels();
+});
+
+//Console: HTTP Basic Methods. Using ConsoleModel as ServiceModels.Console
+var console = service.MapGroup("/console");
+
+console.MapGet("/", async (BasicRESTService<ConsoleModel> basicRESTService) => {
+    return await basicRESTService.GetAll();
+});
+console.MapGet("/{id:int}", async (int id, BasicRESTService<ConsoleModel> basicRESTService) => {
+    return await basicRESTService.GetId(id);
+});
+console.MapPost("/", async (ConsoleModel console, BasicRESTService<ConsoleModel> basicRESTService) => {
+    return await basicRESTService.PostModel(console);
+});
+console.MapPut("/{id}", async (int id, ConsoleModel console, BasicRESTService<ConsoleModel> basicRESTService) => {
+    return await basicRESTService.PutModel(id, console);
+});
+console.MapDelete("/{id}", async (int id, BasicRESTService<ConsoleModel> basicRESTService) => {
+    return await basicRESTService.DeleteModel(id);
+});
+console.MapDelete("/", async (BasicRESTService<ConsoleModel> basicRESTService) => {
+    return await basicRESTService.DeleteAllCModels();
+});
 
 var business = app.MapGroup("/business");
 
