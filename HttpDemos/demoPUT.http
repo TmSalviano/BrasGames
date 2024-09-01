@@ -1,26 +1,71 @@
-// Service 
-PUT http://localhost:5103/service/controller/6
+// Service
+  //Controller
+PUT http://localhost:5103/service/controller/8
 Content-Type: application/json
 
 {
-  "id": 6,
+  "id": 8,
   "name": "Updated Controller Name",
   "type": "Updated Type",
   "price": 123.45,
   "year": 2024
 }
 ###
-
-PUT http://localhost:5103/service/controller/5
+  //Game
+  PUT http://localhost:5103/service/game/1
 Content-Type: application/json
 
 {
-  "id": 5,
-  "type": "ThisShouldWorkNow",
-  "name": "UpdatedName",
-  "year": 2022,
-  "price": 299.99
+  "id": 1,
+  "name": "Updated Game Name",
+  "ageRestriction": "18+",
+  "genre": "Action",
+  "price": 49.99
+}
+###
+
+
+  //Console
+  PUT http://localhost:5103/service/console/3
+Content-Type: application/json
+
+{
+  "id": 3,
+  "name": "Updated Console Name",
+  "type": "Updated Console Type",
+  "releaseYear": "2023-08-31",
+  "price": 399.99
 }
 ###
 
 // Business
+  //DayStats
+  PUT http://localhost:5103/business/agenda/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "day": "2023-08-31",
+  "totalConsumers": 200,
+  "totalProfit": 15000,
+  "totalCost": 9000
+}
+###
+
+  //Employee
+  PUT http://localhost:5103/business/employee/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Jane Doe Updated",
+  "password": "NewSecurePassword123!",
+  "email": "janedoe.updated@example.com",
+  "age": 29,
+  "yearsWorked": 4,
+  "sex": 1,
+  "isFired": false,
+  "endOfContract": "2026-08-31",
+  "salary": 65000.00
+}
+###

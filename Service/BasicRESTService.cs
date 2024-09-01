@@ -13,7 +13,7 @@ public class BasicRESTService<T> where T : class
 {
     private readonly ServiceDbContext _db;
     private readonly Type _tType = typeof(T);
-    private readonly Type[] _serviceModelTypes = [typeof(Controller), typeof(Game), typeof(Order), typeof(BrasGames.Model.ServiceModels.Console)];
+    private readonly Type[] _serviceModelTypes = [typeof(Controller), typeof(Game), typeof(BrasGames.Model.ServiceModels.Console)];
 
     public BasicRESTService(ServiceDbContext db)
     {
@@ -26,8 +26,6 @@ public class BasicRESTService<T> where T : class
         if (_tType == _serviceModelTypes[1])
             return TypedResults.Ok(await _db.Games.ToListAsync());
         if (_tType == _serviceModelTypes[2])
-            return TypedResults.Ok(await _db.Orders.ToListAsync());
-        if (_tType == _serviceModelTypes[3])
             return TypedResults.Ok(await _db.Consoles.ToListAsync());
         
         return TypedResults.Problem("typeof generic class parameter is not equal to typeof any service model");
@@ -49,12 +47,6 @@ public class BasicRESTService<T> where T : class
             return TypedResults.Ok(searchResult);
         }
         if (_tType == _serviceModelTypes[2]) {
-            var searchResult = await _db.Orders.FindAsync(id);
-            if (searchResult is null)
-                return TypedResults.NotFound();
-            return TypedResults.Ok(searchResult);
-        }
-        if (_tType == _serviceModelTypes[3]) {
             var searchResult = await _db.Consoles.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
@@ -78,12 +70,6 @@ public class BasicRESTService<T> where T : class
             await _db.Games.AddAsync(game);
             await _db.SaveChangesAsync();
             return TypedResults.Created("/service/game/" + game.Id, game);
-        }
-
-        if (userModel is Order order) {
-            await _db.Orders.AddAsync(order);
-            await _db.SaveChangesAsync();   
-            return TypedResults.Created("/service/order/" + order.Id, order);
         }
 
         if (userModel is BrasGames.Model.ServiceModels.Console console) {
@@ -121,27 +107,6 @@ public class BasicRESTService<T> where T : class
             result.Name = game.Name;
             result.AgeRestriction = game.AgeRestriction;
             result.Price = game.Price;
-
-            await _db.SaveChangesAsync();
-
-            return TypedResults.NoContent();
-        }
-
-        if (userModel is Order order) {
-            var result = await _db.Orders.FindAsync(id);
-            if (result is null)
-                return TypedResults.NotFound();
-
-            result.GovernmentName = order.GovernmentName;
-            result.Address = order.Address;
-            result.Email = order.Email;
-            result.CPF = order.CPF;
-
-            result.Controllers = order.Controllers;
-            result.Games = order.Games;
-            result.Consoles = order.Consoles;
-
-            result.orderState = order.orderState;
 
             await _db.SaveChangesAsync();
 
@@ -190,16 +155,6 @@ public class BasicRESTService<T> where T : class
         }
 
         if (_tType == _serviceModelTypes[2]) {
-            var result = await _db.Orders.FindAsync(id);
-            if (result is null)
-                return TypedResults.NotFound();
-            
-            _db.Orders.Remove(result);
-            await _db.SaveChangesAsync();
-            return TypedResults.NoContent();       
-        }
-
-        if (_tType == _serviceModelTypes[3]) {
             var result = await _db.Consoles.FindAsync(id);
             if (result is null)
                 return TypedResults.NotFound();
@@ -238,17 +193,6 @@ public class BasicRESTService<T> where T : class
             return TypedResults.NoContent();
         }
         if (_tType == _serviceModelTypes[2]) {
-            var result = await _db.Orders.ToListAsync();
-            if (result is null)
-                return TypedResults.NotFound();
-            
-            foreach (var order in result) {
-                _db.Orders.Remove(order);
-            }
-            await _db.SaveChangesAsync();
-            return TypedResults.NoContent();
-        }
-        if (_tType == _serviceModelTypes[3]) {
             var result = await _db.Consoles.ToListAsync();
             if (result is null)
                 return TypedResults.NotFound();

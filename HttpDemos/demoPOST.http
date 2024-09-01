@@ -1,13 +1,64 @@
 // Service
+  //Controller
 POST http://localhost:5103/service/controller/
 Content-Type: application/json
 
 {
-  "name": "I hope this works",
-  "type": "Type gratitude to God",
-  "price": 777.77,
-  "year": 3773
+  "name": "Ultra Controller",
+  "type": "Wireless",
+  "year": 2022,
+  "price": 59.99
+}
+###
+  //Game
+  POST http://localhost:5103/service/game/
+Content-Type: application/json
+
+{
+  "name": "Super Fun Game",
+  "ageRestriction": "13+",
+  "genre": "Adventure",
+  "price": 49.99
 }
 ###
 
+
+  //Console
+  POST http://localhost:5103/service/console/
+Content-Type: application/json
+
+{
+  "name": "Mega Console",
+  "type": "Handheld",
+  "releaseYear": "2023-01-01",
+  "price": 299.99
+}
+###
 // Business
+  //DayStats
+  POST http://localhost:5103/business/agenda/
+Content-Type: application/json
+
+{
+  "day": "2023-08-31",
+  "totalConsumers": 150,
+  "totalProfit": 12000,
+  "totalCost": 8000
+}
+###
+  //Employee
+  POST http://localhost:5103/business/employee/
+Content-Type: application/json
+
+{
+  "name": "Jane Doe",
+  "password": "SecurePassword123!",
+  "email": "janedoe@example.com",
+  "age": 28,
+  "yearsWorked": 3,
+  "sex": 0,
+  "isFired": false,
+  "endOfContract": "2025-08-31",
+  "salary": 60000.00
+}
+###

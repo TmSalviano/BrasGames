@@ -46,14 +46,12 @@ public class BasicRESTBusiness<T> where T : class {
         if ( userModel is Employee employee ) {
             await _db.Employees.AddAsync(employee);
             await _db.SaveChangesAsync();
-
             return TypedResults.Created("/business/employee/" + employee.Id, employee);
         }
         //DayStats
         if ( userModel is DayStats dayStats ) {
             await _db.Agenda.AddAsync(dayStats);
             await _db.SaveChangesAsync();
-
             return TypedResults.Created("/business/agenda/" + dayStats.Id, dayStats);
         }
         return TypedResults.Problem("userModel Type T doesn't correspond to any of the Business Models.");

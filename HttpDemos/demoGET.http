@@ -1,7 +1,31 @@
 // Service
-GET http://localhost:5103/service/controller/5
+    //Controller
+GET http://localhost:5103/service/controller/8
 ###
-
 GET http://localhost:5103/service/controller/
 ###
+
+    //Game
+GET http://localhost:5103/service/game/1
+###
+GET http://localhost:5103/service/game/
+###
+
+    //Console
+GET http://localhost:5103/service/console/3
+###
+GET http://localhost:5103/service/console/
+###
+
 // Business
+    //DayStats
+GET http://localhost:5103/business/agenda/1
+###
+GET http://localhost:5103/business/agenda/
+###
+
+    //Employee
+GET http://localhost:5103/business/employee/5
+###
+GET http://localhost:5103/business/employee/
+###

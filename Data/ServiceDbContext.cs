@@ -16,7 +16,6 @@ namespace BrasGames.Data
         public DbSet<Model.ServiceModels.Console> Consoles { get; set; } = default!;
         public DbSet<Game> Games { get; set;} = default!;
         public DbSet<Controller> Controllers{ get; set; } = default!;
-        public DbSet<Order> Orders { get; set; } = default!;
 
     }
 }

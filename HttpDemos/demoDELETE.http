@@ -1,8 +1,31 @@
 // Service
-DELETE http://localhost:5103/service/controller/5
+    //Controller
+DELETE http://localhost:5103/service/controller/8
 ###
-
-// Delete all controllers
 DELETE http://localhost:5103/service/controller/
 ###
+
+    //Game
+DELETE http://localhost:5103/service/game/2
+###
+DELETE http://localhost:5103/service/game/
+###
+
+    //Console
+DELETE http://localhost:5103/service/console/2
+###
+DELETE http://localhost:5103/service/console/
+###
+
 // Business
+    //DayStats
+DELETE http://localhost:5103/business/agenda/1
+###
+DELETE http://localhost:5103/business/agenda/
+###
+
+    //Employee
+DELETE http://localhost:5103/business/employee/5
+###
+DELETE http://localhost:5103/business/employee/
+###
