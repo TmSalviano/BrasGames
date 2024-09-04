@@ -150,7 +150,208 @@ agenda.MapDelete("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
 
 app.Run();
 
-//Service classes
+//Service Models Complex Query Methods
+    // Console
+static async Task<IResult> GetFilteredConsoles( ServiceDbContext db,
+    int? idLowerBound = null, int? idUpperBound = null,
+    string? nameSearch = null, string? typeSearch = null, 
+    DateTime? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
+
+    var length = db.Consoles.Count();
+    var collection = db.Consoles.AsQueryable();
+    
+        if (idLowerBound.HasValue || idUpperBound.HasValue) {
+        if (idLowerBound.HasValue && (idLowerBound.Value < 0 || idLowerBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided lower bound ID is not valid.");
+        }
+        if (idUpperBound.HasValue && (idUpperBound.Value < 0 || idUpperBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided upper bound ID is not valid.");
+        }
+        if (idLowerBound.HasValue && idUpperBound.HasValue && idLowerBound.Value > idUpperBound.Value) {
+            return TypedResults.BadRequest("The lower bound ID cannot be greater than the upper bound ID.");
+        }
+
+        collection = collection.Where(model => 
+            (!idLowerBound.HasValue || model.Id >= idLowerBound.Value) &&
+            (!idUpperBound.HasValue || model.Id <= idUpperBound.Value));
+    }
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (typeSearch != null) {
+        collection = collection.Where(model => model.Type.Contains(typeSearch));
+    }
+    if (releaseYearSearch != null) {
+        collection = collection.Where(model => model.ReleaseYear == releaseYearSearch);
+    }
+    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
+        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
+    }
+
+    return TypedResults.Ok(await collection.ToListAsync());
+}
+
+static async Task<IResult> DeleteFilteredConsoles(ServiceDbContext db,
+    int? idLowerBound = null, int? idUpperBound = null,
+    string? nameSearch = null, string? typeSearch = null, 
+    DateTime? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
+    
+    var length = db.Consoles.Count();
+    var collection = db.Consoles.AsQueryable();
+
+    if (idLowerBound.HasValue || idUpperBound.HasValue) {
+        if (idLowerBound.HasValue && (idLowerBound.Value < 0 || idLowerBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided lower bound ID is not valid.");
+        }
+        if (idUpperBound.HasValue && (idUpperBound.Value < 0 || idUpperBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided upper bound ID is not valid.");
+        }
+        if (idLowerBound.HasValue && idUpperBound.HasValue && idLowerBound.Value > idUpperBound.Value) {
+            return TypedResults.BadRequest("The lower bound ID cannot be greater than the upper bound ID.");
+        }
+
+        collection = collection.Where(model => 
+            (!idLowerBound.HasValue || model.Id >= idLowerBound.Value) &&
+            (!idUpperBound.HasValue || model.Id <= idUpperBound.Value));
+    }
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (typeSearch != null) {
+        collection = collection.Where(model => model.Type.Contains(typeSearch));
+    }
+    if (releaseYearSearch != null) {
+        collection = collection.Where(model => model.ReleaseYear == releaseYearSearch);
+    }
+    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
+        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
+    }
+
+    return TypedResults.Ok(await collection.ToListAsync());
+}
+
+    // Controller
+static async Task<IResult> GetFilteredControllers(ServiceDbContext db,
+    int? idLowerBound = null, int? idUpperBound = null,
+    string? nameSearch = null, string? typeSearch = null, 
+    int? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
+    
+    var length = db.Consoles.Count();
+    var collection = db.Controllers.AsQueryable();
+
+    if (idLowerBound.HasValue || idUpperBound.HasValue) {
+        if (idLowerBound.HasValue && (idLowerBound.Value < 0 || idLowerBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided lower bound ID is not valid.");
+        }
+        if (idUpperBound.HasValue && (idUpperBound.Value < 0 || idUpperBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided upper bound ID is not valid.");
+        }
+        if (idLowerBound.HasValue && idUpperBound.HasValue && idLowerBound.Value > idUpperBound.Value) {
+            return TypedResults.BadRequest("The lower bound ID cannot be greater than the upper bound ID.");
+        }
+
+        collection = collection.Where(model => 
+            (!idLowerBound.HasValue || model.Id >= idLowerBound.Value) &&
+            (!idUpperBound.HasValue || model.Id <= idUpperBound.Value));
+    }
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (typeSearch != null) {
+        collection = collection.Where(model => model.Type.Contains(typeSearch));
+    }
+    if (releaseYearSearch != null) {
+        collection = collection.Where(model => model.Year == releaseYearSearch);
+    }
+    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
+        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
+    }
+
+    return TypedResults.Ok(await collection.ToListAsync());
+}
+
+static async Task<IResult> DeleteFilteredControllers(ServiceDbContext db,
+    int? idLowerBound = null, int? idUpperBound = null,
+    string? nameSearch = null, string? typeSearch = null, 
+    int? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
+    
+    var length = db.Consoles.Count();
+    var collection = db.Controllers.AsQueryable();
+
+    if (idLowerBound.HasValue || idUpperBound.HasValue) {
+        if (idLowerBound.HasValue && (idLowerBound.Value < 0 || idLowerBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided lower bound ID is not valid.");
+        }
+        if (idUpperBound.HasValue && (idUpperBound.Value < 0 || idUpperBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided upper bound ID is not valid.");
+        }
+        if (idLowerBound.HasValue && idUpperBound.HasValue && idLowerBound.Value > idUpperBound.Value) {
+            return TypedResults.BadRequest("The lower bound ID cannot be greater than the upper bound ID.");
+        }
+
+        collection = collection.Where(model => 
+            (!idLowerBound.HasValue || model.Id >= idLowerBound.Value) &&
+            (!idUpperBound.HasValue || model.Id <= idUpperBound.Value));
+    }
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (typeSearch != null) {
+        collection = collection.Where(model => model.Type.Contains(typeSearch));
+    }
+    if (releaseYearSearch != null) {
+        collection = collection.Where(model => model.Year == releaseYearSearch);
+    }
+    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
+        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
+    }
+
+    db.RemoveRange(await collection.ToListAsync());
+    await db.SaveChangesAsync();
+    return TypedResults.NoContent();
+}
+
+
+    // Game
+static async Task<IResult> GetFilteredGames(ServiceDbContext db,
+    int? idLowerBound = null, int? idUpperBound = null,
+    string? nameSearch = null, string? ageRestrictionSearch = null, 
+    string? genreSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
+    
+    var length = db.Consoles.Count();
+    var collection = db.Games.AsQueryable();
+
+    if (idLowerBound.HasValue || idUpperBound.HasValue) {
+        if (idLowerBound.HasValue && (idLowerBound.Value < 0 || idLowerBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided lower bound ID is not valid.");
+        }
+        if (idUpperBound.HasValue && (idUpperBound.Value < 0 || idUpperBound.Value >= length)) {
+            return TypedResults.BadRequest("The provided upper bound ID is not valid.");
+        }
+        if (idLowerBound.HasValue && idUpperBound.HasValue && idLowerBound.Value > idUpperBound.Value) {
+            return TypedResults.BadRequest("The lower bound ID cannot be greater than the upper bound ID.");
+        }
+
+        collection = collection.Where(model => 
+            (!idLowerBound.HasValue || model.Id >= idLowerBound.Value) &&
+            (!idUpperBound.HasValue || model.Id <= idUpperBound.Value));
+    }
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (ageRestrictionSearch != null) {
+        collection = collection.Where(model => model.AgeRestriction.Contains(ageRestrictionSearch));
+    }
+    if (genreSearch != null) {
+        collection = collection.Where(model => model.Genre == genreSearch);
+    }
+    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
+        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
+    }
+
+    return TypedResults.Ok(await collection.ToListAsync());
+}
+
 
 // static async Task<IResult> GetControllers(ServiceDbContext db) {
 //     return TypedResults.Ok(await db.Controllers.ToListAsync());
@@ -210,4 +411,7 @@ app.Run();
 // }
 
 
-//Business classes
+//Business Models Complex Query Methods
+    //DayStats
+    //Employee
+
