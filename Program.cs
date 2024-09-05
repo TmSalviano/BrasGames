@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 using BrasGames.Data;
 using BrasGames.Model.BusinessModels;
 using BrasGames.Model.ServiceModels;
@@ -18,6 +19,7 @@ builder.Services.AddDbContext<BusinessDbContext>(opt => opt.UseSqlite(builder.Co
 builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("ServiceDbConnection")));
 builder.Services.AddScoped(typeof(BasicRESTService<>));
 builder.Services.AddScoped(typeof(BasicRESTBusiness<>));
+builder.Services.AddScoped(typeof(ComplexRESTService));
 
 if (builder.Environment.IsDevelopment()) {
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -56,14 +58,14 @@ controller.MapDelete("/", async (BasicRESTService<Controller> basicRESTService) 
 
 //Controller: Http Query Methods
 controller.MapGet("/query/", async(
-    ServiceDbContext db, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
-        return await GetFilteredControllers(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await complexRESTService.GetFilteredControllers(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
     } 
 );
 
 controller.MapDelete("/query/", async(
-    ServiceDbContext db, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
-        return await DeleteFilteredControllers(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await complexRESTService.DeleteFilteredControllers(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
     } 
 );
 
@@ -91,14 +93,14 @@ game.MapDelete("/", async (BasicRESTService<Game> basicRESTService) => {
 
 //Game: Http Query Methods
 game.MapGet("/query/", async(
-    ServiceDbContext db, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound, float priceUpperBound) => {
-        return await GetFilteredGames(db, nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound, float priceUpperBound) => {
+        return await complexRESTService.GetFilteredGames(nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
     } 
 );
 
 game.MapDelete("/query/", async(
-    ServiceDbContext db, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound, float priceUpperBound) => {
-        return await DeleteFilteredGames(db, nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound, float priceUpperBound) => {
+        return await complexRESTService.DeleteFilteredGames(nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
     } 
 );
 
@@ -126,14 +128,14 @@ console.MapDelete("/", async (BasicRESTService<ConsoleModel> basicRESTService) =
 
 //Console Http Query Methods
 console.MapGet("/query/", async(
-    ServiceDbContext db, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
-        return await GetFilteredConsoles(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await complexRESTService.GetFilteredConsoles(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
     } 
 );
 
 console.MapDelete("/query/", async(
-    ServiceDbContext db, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
-        return await DeleteFilteredConsoles(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await complexRESTService.DeleteFilteredConsoles(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
     } 
 );
 
@@ -163,14 +165,14 @@ employee.MapDelete("/", async (BasicRESTBusiness<Employee> basicRESTBusiness) =>
 
 //Employees Query Methods
 employee.MapGet("/query/", async(
-    BusinessDbContext db, string? nameSearch, int ageLowerBound, int ageUpperBound, int yearsWorkedLowerBound, int yearsWorkedUpperBound, float salaryLowerBound, float salaryUpperBound, bool? isFiredSearch) => {
-        return await GetFilteredEmployees(db, nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
+    ComplexRESTService complexRESTService, string? nameSearch, int ageLowerBound, int ageUpperBound, int yearsWorkedLowerBound, int yearsWorkedUpperBound, float salaryLowerBound, float salaryUpperBound, bool? isFiredSearch) => {
+        return await complexRESTService.GetFilteredEmployees(nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
     } 
 );
 
 employee.MapDelete("/query/", async(
-    BusinessDbContext db, string? nameSearch, int ageLowerBound, int ageUpperBound, int yearsWorkedLowerBound, int yearsWorkedUpperBound, float salaryLowerBound, float salaryUpperBound, bool? isFiredSearch) => {
-        return await DeleteFilteredEmployees(db, nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
+    ComplexRESTService complexRESTService, string? nameSearch, int ageLowerBound, int ageUpperBound, int yearsWorkedLowerBound, int yearsWorkedUpperBound, float salaryLowerBound, float salaryUpperBound, bool? isFiredSearch) => {
+        return await complexRESTService.DeleteFilteredEmployees(nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
     } 
 );
 
@@ -198,313 +200,16 @@ agenda.MapDelete("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
 
 //Agenda Http Query Methods
 agenda.MapGet("/query/", async(
-    BusinessDbContext db, DateTime? dateSearch, int totalConsumerLowerBound, int totalConsumerUpperBound, int totalProfitLowerBound, int totalProfitUpperBound, int totalCostLowerBound, int totalCostUpperBound) => {
-        return await GetFilteredAgenda(db, dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
+    ComplexRESTService complexRESTService, DateTime? dateSearch, int totalConsumerLowerBound, int totalConsumerUpperBound, int totalProfitLowerBound, int totalProfitUpperBound, int totalCostLowerBound, int totalCostUpperBound) => {
+        return await complexRESTService.GetFilteredAgenda(dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
     } 
 );
 
 agenda.MapDelete("/query/", async(
-    BusinessDbContext db, DateTime? dateSearch, int totalConsumerLowerBound, int totalConsumerUpperBound, int totalProfitLowerBound, int totalProfitUpperBound, int totalCostLowerBound, int totalCostUpperBound) => {
-        return await DeleteFilteredAgenda(db, dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
+    ComplexRESTService complexRESTService, DateTime? dateSearch, int totalConsumerLowerBound, int totalConsumerUpperBound, int totalProfitLowerBound, int totalProfitUpperBound, int totalCostLowerBound, int totalCostUpperBound) => {
+        return await complexRESTService.DeleteFilteredAgenda(dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
     } 
 );
 
 app.Run();
-
-//Service Models Complex Query Methods
-    // Console
-static async Task<IResult> GetFilteredConsoles( ServiceDbContext db,
-    string? nameSearch = null, string? typeSearch = null, 
-    DateTime? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
-
-    var collection = db.Consoles.AsQueryable();
-    
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (typeSearch != null) {
-        collection = collection.Where(model => model.Type.Contains(typeSearch));
-    }
-    if (releaseYearSearch != null) {
-        collection = collection.Where(model => model.ReleaseYear == releaseYearSearch);
-    }
-    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
-        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
-    }
-
-    return TypedResults.Ok(await collection.ToListAsync());
-}
-
-static async Task<IResult> DeleteFilteredConsoles(ServiceDbContext db,
-    string? nameSearch = null, string? typeSearch = null, 
-    DateTime? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
-    
-    var collection = db.Consoles.AsQueryable();
-
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (typeSearch != null) {
-        collection = collection.Where(model => model.Type.Contains(typeSearch));
-    }
-    if (releaseYearSearch != null) {
-        collection = collection.Where(model => model.ReleaseYear == releaseYearSearch);
-    }
-    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
-        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
-    }
-
-    var items = await collection.ToListAsync();
-    if (items.Any()) {
-        db.Consoles.RemoveRange(items);
-    }
-
-    await db.SaveChangesAsync();
-    return TypedResults.NoContent();
-}
-
-    // Controller
-static async Task<IResult> GetFilteredControllers(ServiceDbContext db,
-    string? nameSearch = null, string? typeSearch = null, 
-    int? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
-    
-    var collection = db.Controllers.AsQueryable();
-    
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (typeSearch != null) {
-        collection = collection.Where(model => model.Type.Contains(typeSearch));
-    }
-    if (releaseYearSearch != null) {
-        collection = collection.Where(model => model.Year == releaseYearSearch);
-    }
-    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
-        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
-    }
-
-    return TypedResults.Ok(await collection.ToListAsync());
-}
-
-static async Task<IResult> DeleteFilteredControllers(ServiceDbContext db,
-    string? nameSearch = null, string? typeSearch = null, 
-    int? releaseYearSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
-    
-    var collection = db.Controllers.AsQueryable();
-    
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (typeSearch != null) {
-        collection = collection.Where(model => model.Type.Contains(typeSearch));
-    }
-    if (releaseYearSearch != null) {
-        collection = collection.Where(model => model.Year == releaseYearSearch);
-    }
-    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
-        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
-    }
-
-    var items = await collection.ToListAsync();
-    if (items.Any()) {
-        db.Controllers.RemoveRange(items);
-    }
-    await db.SaveChangesAsync();
-    return TypedResults.NoContent();
-}
-
-
-    // Game
-static async Task<IResult> GetFilteredGames(ServiceDbContext db,
-    string? nameSearch = null, string? ageRestrictionSearch = null, 
-    string? genreSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
-    
-    var collection = db.Games.AsQueryable();
-
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (ageRestrictionSearch != null) {
-        collection = collection.Where(model => model.AgeRestriction.Contains(ageRestrictionSearch));
-    }
-    if (genreSearch != null) {
-        collection = collection.Where(model => model.Genre == genreSearch);
-    }
-    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
-        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
-    }
-
-    return TypedResults.Ok(await collection.ToListAsync());
-}
-
-static async Task<IResult> DeleteFilteredGames(ServiceDbContext db,
-    string? nameSearch = null, string? ageRestrictionSearch = null, 
-    string? genreSearch = null, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) {
-    
-    var collection = db.Games.AsQueryable();
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (ageRestrictionSearch != null) {
-        collection = collection.Where(model => model.AgeRestriction.Contains(ageRestrictionSearch));
-    }
-    if (genreSearch != null) {
-        collection = collection.Where(model => model.Genre == genreSearch);
-    }
-    if (priceLowerBound != 0 || priceUpperBound < float.MaxValue) {
-        collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
-    }
-
-    var items = await collection.ToListAsync();
-    if (items.Any()) {
-        db.Games.RemoveRange(items);
-    }
-    await db.SaveChangesAsync();
-
-    return TypedResults.NoContent();
-}
-
-//Business Models Complex Query Methods
-    //DayStats
-static async Task<IResult> GetFilteredAgenda(BusinessDbContext db, 
-    DateTime? date = null,
-    int totalConsumerLowerBound = 0, int totalConsumerUpperBound= int.MaxValue, 
-    int totalProfitLowerBound = 0, int totalProfitUpperBound = int.MaxValue,
-    int totalCostLowerBound = 0, int totalCostUpperBound = int.MaxValue) {
-
-    var collection = db.Agenda.AsQueryable();
-
-    if (date.HasValue) {
-        collection = collection.Where(model => model.Day == date);        
-    }
-    if (totalConsumerLowerBound != 0 || totalConsumerUpperBound != int.MaxValue) {
-        collection = collection.Where(model  => 
-            (model.TotalConsumers >= totalConsumerLowerBound) && 
-            (model.TotalConsumers <= totalConsumerUpperBound));
-    }
-    if (totalProfitLowerBound != 0 || totalProfitUpperBound != int.MaxValue) {
-        collection = collection.Where(model  => 
-            (model.TotalProfit >= totalProfitLowerBound) && 
-            (model.TotalProfit <= totalProfitUpperBound));
-    }
-    if (totalCostLowerBound != 0 || totalCostUpperBound != int.MaxValue) {
-        collection = collection.Where(model  => 
-            (model.TotalCost >= totalCostLowerBound) && 
-            (model.TotalCost <= totalCostUpperBound));
-    }
-
-    return TypedResults.Ok(await collection.ToListAsync());
-}
-    
-static async Task<IResult> DeleteFilteredAgenda(BusinessDbContext db, 
-    DateTime? date = null,
-    int totalConsumerLowerBound = 0, int totalConsumerUpperBound= int.MaxValue, 
-    int totalProfitLowerBound = 0, int totalProfitUpperBound = int.MaxValue,
-    int totalCostLowerBound = 0, int totalCostUpperBound = int.MaxValue) {
-
-    var collection = db.Agenda.AsQueryable();
-
-    if (date.HasValue) {
-        collection = collection.Where(model => model.Day == date);        
-    }
-    if (totalConsumerLowerBound != 0 || totalConsumerUpperBound != int.MaxValue) {
-        collection = collection.Where(model  => 
-            (model.TotalConsumers >= totalConsumerLowerBound) && 
-            (model.TotalConsumers <= totalConsumerUpperBound));
-    }
-    if (totalProfitLowerBound != 0 || totalProfitUpperBound != int.MaxValue) {
-        collection = collection.Where(model  => 
-            (model.TotalProfit >= totalProfitLowerBound) && 
-            (model.TotalProfit <= totalProfitUpperBound));
-    }
-    if (totalCostLowerBound != 0 || totalCostUpperBound != int.MaxValue) {
-        collection = collection.Where(model  => 
-            (model.TotalCost >= totalCostLowerBound) && 
-            (model.TotalCost <= totalCostUpperBound));
-    }
-
-    var items = await collection.ToListAsync();
-    if (items.Any()) {
-        db.RemoveRange(items);
-    }
-    await db.SaveChangesAsync();
-
-    return TypedResults.NoContent();
-}
-    
-    //Employee - No Sentitive Information
-static async Task<IResult> GetFilteredEmployees( BusinessDbContext db,
-    string? nameSearch = null,  
-    int ageLowerBound = 0, int ageUpperBound = int.MaxValue,
-    int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue,
-    float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue,
-    bool? isFiredSearch = null
-) {
-    var collection = db.Employees.AsQueryable();
-
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (ageLowerBound != 0 || ageUpperBound != int.MaxValue) {
-        collection = collection.Where(model => 
-            model.Age >= ageLowerBound && model.Age <= ageUpperBound
-        );
-    }
-    if (yearsWorkedLowerBound != 0 ||yearsWorkedUpperBound != int.MaxValue) {
-        collection = collection.Where(model =>
-            model.YearsWorked >= yearsWorkedLowerBound && model.YearsWorked <= yearsWorkedUpperBound 
-            );
-    }
-    if (salaryLowerBound != 0 || salaryUpperBound!= float.MaxValue) {
-        collection = collection.Where(model =>
-            model.Salary >= salaryLowerBound && model.Salary <= salaryUpperBound
-        );
-    }
-    if (isFiredSearch != null) {
-        collection = collection.Where(model => model.isFired == isFiredSearch);
-        }
-
-    return TypedResults.Ok(await collection.ToListAsync());
-}
-
-static async Task<IResult> DeleteFilteredEmployees( BusinessDbContext db,
-    string? nameSearch = null,  
-    int ageLowerBound = 0, int ageUpperBound = int.MaxValue,
-    int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue,
-    float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue,
-    bool? isFiredSearch = null
-) {
-    var collection = db.Employees.AsQueryable();
-
-    if (nameSearch != null) {
-        collection = collection.Where(model => model.Name.Contains(nameSearch));
-    }
-    if (ageLowerBound != 0 || ageUpperBound != int.MaxValue) {
-        collection = collection.Where(model => 
-            model.Age >= ageLowerBound && model.Age <= ageUpperBound
-        );
-    }
-    if (yearsWorkedLowerBound != 0 || yearsWorkedUpperBound != int.MaxValue) {
-        collection = collection.Where(model =>
-            model.YearsWorked >= yearsWorkedLowerBound && model.YearsWorked <= yearsWorkedUpperBound 
-        );
-    }
-    if (salaryLowerBound != 0 ||  salaryUpperBound!= float.MaxValue) {
-            collection = collection.Where(model =>
-            model.Salary >= salaryLowerBound && model.Salary <= salaryUpperBound
-        );
-    }
-    
-    if (isFiredSearch != null)  {
-        collection = collection.Where(model => model.isFired == isFiredSearch);
-    } 
-
-    var items = await collection.ToListAsync();
-    if (items.Any()) {
-        db.RemoveRange(items);
-    }
-    await db.SaveChangesAsync();
-    return TypedResults.NoContent();
-}
-
 
