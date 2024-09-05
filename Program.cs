@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using BrasGames.Data;
 using BrasGames.Model.BusinessModels;
 using BrasGames.Model.ServiceModels;
@@ -372,24 +373,78 @@ static async Task<IResult> DeleteFilteredAgenda(BusinessDbContext db,
 }
     
     //Employee - No Sentitive Information
-static async Task<IResult> GetFilteredEmployees(
+static async Task<IResult> GetFilteredEmployees( BusinessDbContext db,
     string? nameSearch = null,  
-    int AgeLowerBound = 0, int AgeUpperBound = int.MaxValue,
-    int yearsWorkedLowerBOund = 0, int yearsWorkedUpperBOund = 0,
+    int ageLowerBound = 0, int ageUpperBound = int.MaxValue,
+    int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue,
     float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue,
-    bool isFired = false,
+    bool? isFiredSearch = null
 ) {
+    var collection = db.Employees.AsQueryable();
 
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (ageLowerBound != 0 || ageUpperBound != int.MaxValue) {
+        collection = collection.Where(model => 
+            model.Age >= ageLowerBound && model.Age <= ageUpperBound
+        );
+    }
+    if (yearsWorkedLowerBound != 0 ||yearsWorkedUpperBound != int.MaxValue) {
+        collection = collection.Where(model =>
+            model.YearsWorked >= yearsWorkedLowerBound && model.YearsWorked <= yearsWorkedUpperBound 
+            );
+    }
+    if (salaryLowerBound != 0 || salaryUpperBound!= float.MaxValue) {
+        collection = collection.Where(model =>
+            model.Salary >= salaryLowerBound && model.Salary <= salaryUpperBound
+        );
+    }
+    if (isFiredSearch != null) {
+        collection = collection.Where(model => model.isFired == isFiredSearch);
+        }
+
+    return TypedResults.Ok(await collection.ToListAsync());
 }
 
-static async Task<IResult> DeleteFilteredEmployees(
+static async Task<IResult> DeleteFilteredEmployees( BusinessDbContext db,
     string? nameSearch = null,  
-    int AgeLowerBound = 0, int AgeUpperBound = int.MaxValue,
-    int yearsWorkedLowerBOund = 0, int yearsWorkedUpperBOund = 0,
+    int ageLowerBound = 0, int ageUpperBound = int.MaxValue,
+    int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue,
     float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue,
-    bool isFired = false,
+    bool? isFiredSearch = null
 ) {
+    var collection = db.Employees.AsQueryable();
 
+    if (nameSearch != null) {
+        collection = collection.Where(model => model.Name.Contains(nameSearch));
+    }
+    if (ageLowerBound != 0 || ageUpperBound != int.MaxValue) {
+        collection = collection.Where(model => 
+            model.Age >= ageLowerBound && model.Age <= ageUpperBound
+        );
+    }
+    if (yearsWorkedLowerBound != 0 || yearsWorkedUpperBound != int.MaxValue) {
+        collection = collection.Where(model =>
+            model.YearsWorked >= yearsWorkedLowerBound && model.YearsWorked <= yearsWorkedUpperBound 
+        );
+    }
+    if (salaryLowerBound != 0 ||  salaryUpperBound!= float.MaxValue) {
+            collection = collection.Where(model =>
+            model.Salary >= salaryLowerBound && model.Salary <= salaryUpperBound
+        );
+    }
+    
+    if (isFiredSearch != null)  {
+        collection = collection.Where(model => model.isFired == isFiredSearch);
+    } 
+
+    var items = await collection.ToListAsync();
+    if (items.Any()) {
+        db.RemoveRange(items);
+    }
+    await db.SaveChangesAsync();
+    return TypedResults.NoContent();
 }
 
 
