@@ -35,7 +35,7 @@ namespace BrasGames.Model.BusinessModels
         [Required, DataType(DataType.Date)]
         public DateTime EndOfContract {get; set;}
 
-        [Range(0, float.MaxValue), DataType(DataType.Date)]
+        [Range(0, float.MaxValue)]
         public float Salary {get; set;}
 
     }

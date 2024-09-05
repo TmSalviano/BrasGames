@@ -371,5 +371,25 @@ static async Task<IResult> DeleteFilteredAgenda(BusinessDbContext db,
     return TypedResults.NoContent();
 }
     
-    //Employee
+    //Employee - No Sentitive Information
+static async Task<IResult> GetFilteredEmployees(
+    string? nameSearch = null,  
+    int AgeLowerBound = 0, int AgeUpperBound = int.MaxValue,
+    int yearsWorkedLowerBOund = 0, int yearsWorkedUpperBOund = 0,
+    float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue,
+    bool isFired = false,
+) {
+
+}
+
+static async Task<IResult> DeleteFilteredEmployees(
+    string? nameSearch = null,  
+    int AgeLowerBound = 0, int AgeUpperBound = int.MaxValue,
+    int yearsWorkedLowerBOund = 0, int yearsWorkedUpperBOund = 0,
+    float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue,
+    bool isFired = false,
+) {
+
+}
+
 
