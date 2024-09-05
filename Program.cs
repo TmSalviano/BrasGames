@@ -57,6 +57,19 @@ controller.MapDelete("/", async (BasicRESTService<Controller> basicRESTService) 
     return await basicRESTService.DeleteAllCModels();
 });
 
+//Controller: Http Query Methods
+controller.MapGet("/query/", async(
+    ServiceDbContext db, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await GetFilteredControllers(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    } 
+);
+
+controller.MapDelete("/query/", async(
+    ServiceDbContext db, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await DeleteFilteredControllers(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    } 
+);
+
 var game = service.MapGroup("/game"); //Working
 
 //Game: HTTP Basic Methods
@@ -79,6 +92,18 @@ game.MapDelete("/", async (BasicRESTService<Game> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
 
+//Game: Http Query Methods
+game.MapGet("/query/", async(
+    ServiceDbContext db, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound, float priceUpperBound) => {
+        return await GetFilteredGames(db, nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
+    } 
+);
+
+game.MapDelete("/query/", async(
+    ServiceDbContext db, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound, float priceUpperBound) => {
+        return await DeleteFilteredGames(db, nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
+    } 
+);
 
 var console = service.MapGroup("/console");
 
@@ -101,6 +126,19 @@ console.MapDelete("/{id}", async (int id, BasicRESTService<ConsoleModel> basicRE
 console.MapDelete("/", async (BasicRESTService<ConsoleModel> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
+
+//Console Http Query Methods
+console.MapGet("/query/", async(
+    ServiceDbContext db, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await GetFilteredConsoles(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    } 
+);
+
+console.MapDelete("/query/", async(
+    ServiceDbContext db, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound, float priceUpperBound) => {
+        return await DeleteFilteredConsoles(db, nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    } 
+);
 
 var business = app.MapGroup("/business");
 
@@ -126,6 +164,18 @@ employee.MapDelete("/", async (BasicRESTBusiness<Employee> basicRESTBusiness) =>
     return await basicRESTBusiness.DeleteAllModels();
 });
 
+//Employees Query Methods
+employee.MapGet("/query/", async(
+    BusinessDbContext db, string? nameSearch, int ageLowerBound, int ageUpperBound, int yearsWorkedLowerBound, int yearsWorkedUpperBound, float salaryLowerBound, float salaryUpperBound, bool? isFiredSearch) => {
+        return await GetFilteredEmployees(db, nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
+    } 
+);
+
+employee.MapDelete("/query/", async(
+    BusinessDbContext db, string? nameSearch, int ageLowerBound, int ageUpperBound, int yearsWorkedLowerBound, int yearsWorkedUpperBound, float salaryLowerBound, float salaryUpperBound, bool? isFiredSearch) => {
+        return await DeleteFilteredEmployees(db, nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
+    } 
+);
 
 var agenda = business.MapGroup("/agenda");
 
@@ -148,6 +198,19 @@ agenda.MapDelete("/{id}", async (int id, BasicRESTBusiness<DayStats> basicRESTBu
 agenda.MapDelete("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
     return await basicRESTBusiness.DeleteAllModels();
 });
+
+//Agenda Http Query Methods
+agenda.MapGet("/query/", async(
+    BusinessDbContext db, DateTime? dateSearch, int totalConsumerLowerBound, int totalConsumerUpperBound, int totalProfitLowerBound, int totalProfitUpperBound, int totalCostLowerBound, int totalCostUpperBound) => {
+        return await GetFilteredAgenda(db, dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
+    } 
+);
+
+agenda.MapDelete("/query/", async(
+    BusinessDbContext db, DateTime? dateSearch, int totalConsumerLowerBound, int totalConsumerUpperBound, int totalProfitLowerBound, int totalProfitUpperBound, int totalCostLowerBound, int totalCostUpperBound) => {
+        return await DeleteFilteredAgenda(db, dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
+    } 
+);
 
 app.Run();
 
