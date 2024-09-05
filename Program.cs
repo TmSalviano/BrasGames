@@ -19,12 +19,9 @@ builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseSqlite(builder.Con
 builder.Services.AddScoped(typeof(BasicRESTService<>));
 builder.Services.AddScoped(typeof(BasicRESTBusiness<>));
 
-
 if (builder.Environment.IsDevelopment()) {
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 }
-
-
 
 var app = builder.Build();
 
