@@ -1,4 +1,6 @@
 // Service
+    //Basic RESTAPI Requests
+
     //Controller
 GET http://localhost:5103/service/controller/8
 ###
@@ -16,6 +18,13 @@ GET http://localhost:5103/service/console/3
 ###
 GET http://localhost:5103/service/console/
 ###
+
+    //Query Requests
+    //Controllers
+GET http://localhost:5103/service/controller/query/?nameSearch=Super&priceLowerBound=100&priceUpperBound=150
+###
+    //Games
+    //Console
 
 // Business
     //DayStats

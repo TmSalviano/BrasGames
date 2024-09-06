@@ -55,7 +55,9 @@ public class ComplexRESTService {
 
         var items = await collection.ToListAsync();
         if (items.Any()) {
-            _serviceDb.Consoles.RemoveRange(items);
+            foreach (var item in items) {
+                _serviceDb.Remove(item);
+            }
         }
 
         await _serviceDb.SaveChangesAsync();
@@ -106,7 +108,9 @@ public class ComplexRESTService {
 
         var items = await collection.ToListAsync();
         if (items.Any()) {
-            _serviceDb.Controllers.RemoveRange(items);
+            foreach (var item in items) {
+                _serviceDb.Remove(item);
+            }
         }
         await _serviceDb.SaveChangesAsync();
         return TypedResults.NoContent();
@@ -156,7 +160,9 @@ public class ComplexRESTService {
 
         var items = await collection.ToListAsync();
         if (items.Any()) {
-            _serviceDb.Games.RemoveRange(items);
+            foreach (var item in items) {
+                _serviceDb.Remove(item);
+            }
         }
         await _serviceDb.SaveChangesAsync();
 
@@ -224,7 +230,9 @@ public class ComplexRESTService {
 
         var items = await collection.ToListAsync();
         if (items.Any()) {
-            _businessDb.RemoveRange(items);
+            foreach (var item in items) {
+                _serviceDb.Remove(item);
+            }
         }
         await _businessDb.SaveChangesAsync();
 
@@ -300,7 +308,9 @@ public class ComplexRESTService {
 
         var items = await collection.ToListAsync();
         if (items.Any()) {
-            _businessDb.RemoveRange(items);
+            foreach (var item in items) {
+                _serviceDb.Remove(item);
+            }
         }
         await _businessDb.SaveChangesAsync();
         return TypedResults.NoContent();

@@ -4,10 +4,10 @@ POST http://localhost:5103/service/controller/
 Content-Type: application/json
 
 {
-  "name": "Ultra Controller",
+  "name": "Super 3",
   "type": "Wireless",
-  "year": 2022,
-  "price": 59.99
+  "year": 2024,
+  "price": 200
 }
 ###
   //Game
