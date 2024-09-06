@@ -2,12 +2,13 @@ using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using BrasGames.Data;
 using BrasGames.Model.BusinessModels;
+using BrasGames.Model.DTO.BusinessDTO;
+using BrasGames.Model.DTO.ServiceDTO;
 using BrasGames.Model.ServiceModels;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
-using ConsoleModel = BrasGames.Model.ServiceModels.Console;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,22 +38,22 @@ var service = app.MapGroup("/service");
 var controller = service.MapGroup("/controller"); //Working
 
 //Controller: HTTP Basic Methods
-controller.MapGet("/", async (BasicRESTService<Controller> basicRESTService) => {
+controller.MapGet("/", async (BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
-controller.MapGet("/{id:int}", async (int id, BasicRESTService<Controller> basicRESTService) => {
+controller.MapGet("/{id:int}", async (int id, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
 });
-controller.MapPost("/", async (Controller controller, BasicRESTService<Controller> basicRESTService) => {
+controller.MapPost("/", async (ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PostModel(controller);
 });
-controller.MapPut("/{id}", async (int id, Controller controller, BasicRESTService<Controller> basicRESTService) => {
+controller.MapPut("/{id}", async (int id, ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, controller);
 });
-controller.MapDelete("/{id}", async (int id, BasicRESTService<Controller> basicRESTService) => {
+controller.MapDelete("/{id}", async (int id, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.DeleteModel(id);
 });
-controller.MapDelete("/", async (BasicRESTService<Controller> basicRESTService) => {
+controller.MapDelete("/", async (BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
 
@@ -72,22 +73,22 @@ controller.MapDelete("/query/", async(
 var game = service.MapGroup("/game"); //Working
 
 //Game: HTTP Basic Methods
-game.MapGet("/", async (BasicRESTService<Game> basicRESTService) => {
+game.MapGet("/", async (BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
-game.MapGet("/{id:int}", async (int id, BasicRESTService<Game> basicRESTService) => {
+game.MapGet("/{id:int}", async (int id, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
 });
-game.MapPost("/", async (Game game, BasicRESTService<Game> basicRESTService) => {
+game.MapPost("/", async (GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.PostModel(game);
 });
-game.MapPut("/{id}", async (int id, Game game, BasicRESTService<Game> basicRESTService) => {
+game.MapPut("/{id}", async (int id, GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, game);
 });
-game.MapDelete("/{id}", async (int id, BasicRESTService<Game> basicRESTService) => {
+game.MapDelete("/{id}", async (int id, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.DeleteModel(id);
 });
-game.MapDelete("/", async (BasicRESTService<Game> basicRESTService) => {
+game.MapDelete("/", async (BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
 
@@ -107,22 +108,22 @@ game.MapDelete("/query/", async(
 var console = service.MapGroup("/console");
 
 //Console: HTTP Basic Methods. Using ConsoleModel as ServiceModels.Console. - Working
-console.MapGet("/", async (BasicRESTService<ConsoleModel> basicRESTService) => {
+console.MapGet("/", async (BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.GetAll();
 });
-console.MapGet("/{id:int}", async (int id, BasicRESTService<ConsoleModel> basicRESTService) => {
+console.MapGet("/{id:int}", async (int id, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
 });
-console.MapPost("/", async (ConsoleModel console, BasicRESTService<ConsoleModel> basicRESTService) => {
+console.MapPost("/", async (ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.PostModel(console);
 });
-console.MapPut("/{id}", async (int id, ConsoleModel console, BasicRESTService<ConsoleModel> basicRESTService) => {
+console.MapPut("/{id}", async (int id, ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, console);
 });
-console.MapDelete("/{id}", async (int id, BasicRESTService<ConsoleModel> basicRESTService) => {
+console.MapDelete("/{id}", async (int id, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.DeleteModel(id);
 });
-console.MapDelete("/", async (BasicRESTService<ConsoleModel> basicRESTService) => {
+console.MapDelete("/", async (BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.DeleteAllCModels();
 });
 
@@ -144,22 +145,22 @@ var business = app.MapGroup("/business");
 var employee = business.MapGroup("/employee");
 
 //Employee: HTTP Basic Methods. - Working
-employee.MapGet("/", async (BasicRESTBusiness<Employee> basicRESTBusiness) => {
+employee.MapGet("/", async (BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.GetAll();
 });
-employee.MapGet("/{id:int}", async (int id, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+employee.MapGet("/{id:int}", async (int id, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.GetId(id);
 });
-employee.MapPost("/", async (Employee employee, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+employee.MapPost("/", async (EmployeeDTO employee, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PostModel(employee);
 });
-employee.MapPut("/{id}", async (int id, Employee employee, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+employee.MapPut("/{id}", async (int id, EmployeeDTO employee, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PutModel(id, employee);
 });
-employee.MapDelete("/{id}", async (int id, BasicRESTBusiness<Employee> basicRESTBusiness) => {
+employee.MapDelete("/{id}", async (int id, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.DeleteModel(id);
 });
-employee.MapDelete("/", async (BasicRESTBusiness<Employee> basicRESTBusiness) => {
+employee.MapDelete("/", async (BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.DeleteAllModels();
 });
 
@@ -179,22 +180,22 @@ employee.MapDelete("/query/", async(
 var agenda = business.MapGroup("/agenda");
 
 //DayStats: HTTP Basic Methods. - Working
-agenda.MapGet("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+agenda.MapGet("/", async (BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.GetAll();
 });
-agenda.MapGet("/{id:int}", async (int id, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+agenda.MapGet("/{id:int}", async (int id, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.GetId(id);
 });
-agenda.MapPost("/", async (DayStats dayStats, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+agenda.MapPost("/", async (DayStatsDTO dayStats, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PostModel(dayStats);
 });
-agenda.MapPut("/{id}", async (int id, DayStats dayStats, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+agenda.MapPut("/{id}", async (int id, DayStatsDTO dayStats, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PutModel(id, dayStats);
 });
-agenda.MapDelete("/{id}", async (int id, BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+agenda.MapDelete("/{id}", async (int id, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.DeleteModel(id);
 });
-agenda.MapDelete("/", async (BasicRESTBusiness<DayStats> basicRESTBusiness) => {
+agenda.MapDelete("/", async (BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.DeleteAllModels();
 });
 
