@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using BrasGames.Model.ServiceModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using BrasGames.Model.DTO.ServiceDTO;
+using System.Runtime.InteropServices;
 
 //There is a possibility this could be a static class. Don't forget about static constructors.
 
@@ -14,7 +15,7 @@ public class BasicRESTService<T> where T : class
 {
     private readonly ServiceDbContext _db;
     private readonly Type _tType = typeof(T);
-    private readonly Type[] _serviceModelTypes = [typeof(Controller), typeof(Game), typeof(BrasGames.Model.ServiceModels.Console)];
+    private readonly Type[] _serviceModelTypes = [typeof(ControllerDTO), typeof(GameDTO), typeof(ConsoleDTO)];
 
     public BasicRESTService(ServiceDbContext db)
     {
@@ -28,10 +29,16 @@ public class BasicRESTService<T> where T : class
             var result = models.Select(model => new ControllerDTO(model)).ToList();
             return TypedResults.Ok(result);
         }
-        if (_tType == _serviceModelTypes[1])
-            return TypedResults.Ok(await _db.Games.ToListAsync());
-        if (_tType == _serviceModelTypes[2])
-            return TypedResults.Ok(await _db.Consoles.ToListAsync());
+        if (_tType == _serviceModelTypes[1]) {
+            var models = await _db.Games.ToListAsync();
+            var result = models.Select(model => new GameDTO(model)).ToList();
+            return TypedResults.Ok(result);
+        }
+        if (_tType == _serviceModelTypes[2]) {
+            var models = await _db.Consoles.ToListAsync();
+            var result = models.Select(model => new ConsoleDTO(model)).ToList();
+            return TypedResults.Ok(result);        
+        }
         
         return TypedResults.Problem("typeof generic class parameter is not equal to typeof any service model");
     }
@@ -43,40 +50,62 @@ public class BasicRESTService<T> where T : class
             var searchResult = await _db.Controllers.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
-            return TypedResults.Ok(searchResult);
+            return TypedResults.Ok(new ControllerDTO(searchResult));
         }
         if (_tType == _serviceModelTypes[1]) {
             var searchResult = await _db.Games.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
-            return TypedResults.Ok(searchResult);
+            return TypedResults.Ok(new GameDTO(searchResult));
         }
         if (_tType == _serviceModelTypes[2]) {
             var searchResult = await _db.Consoles.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
-            return TypedResults.Ok(searchResult);
+            return TypedResults.Ok(new ConsoleDTO(searchResult));   
         }
         
         return TypedResults.Problem("typeof generic class parameter is not equal to typeof any service model");
     }
 
-    public async Task<IResult> PostModel(T userModel)
+    public async Task<IResult> PostModel(T dtoModel)
     {
-        if (userModel is Controller controller) {
-            await _db.Controllers.AddAsync(controller);
+        if (dtoModel is ControllerDTO controller) {
+            await _db.Controllers.AddAsync(
+                new Controller() {
+                    Id = controller.Id,
+                    Name = controller.Name,
+                    Type = controller.Type,
+                    Price = controller.Price,
+                    Year= controller.Year,
+                }
+            );
             await _db.SaveChangesAsync();
             return TypedResults.Created("/service/controller/" + controller.Id, controller);
         }
 
-        if (userModel is Game game) {
-            await _db.Games.AddAsync(game);
+        if (dtoModel is GameDTO game) {
+            await _db.Games.AddAsync(new Game() {
+                Id = game.Id,
+                AgeRestriction = game.AgeRestriction,
+                Genre = game.Genre,
+                Name = game.Name,
+                Price = game.Price,
+            });
             await _db.SaveChangesAsync();
             return TypedResults.Created("/service/game/" + game.Id, game);
         }
 
-        if (userModel is BrasGames.Model.ServiceModels.Console console) {
-            await _db.Consoles.AddAsync(console);
+        if (dtoModel is ConsoleDTO console) {
+            await _db.Consoles.AddAsync(
+                new BrasGames.Model.ServiceModels.Console() {
+                    Id = console.Id,
+                    Name = console.Name,
+                    Type = console.Type,
+                    ReleaseYear = console.ReleaseYear,
+                    Price = console.Price,
+                }
+            );
             await _db.SaveChangesAsync();
             return TypedResults.Created("/service/console/" + console.Id, console);
         }
@@ -84,47 +113,47 @@ public class BasicRESTService<T> where T : class
         return TypedResults.Problem("typeof generic userModel is not equal to typeof any service model");
     }
 
-    public async Task<IResult> PutModel(int id, T userModel)
+    public async Task<IResult> PutModel(int id, T dtoModel)
     {
-        if (userModel is Controller controller) {
+        if (dtoModel is ControllerDTO controllerDTO) {
             var result = await _db.Controllers.FindAsync(id);
             if (result is null)
                 return TypedResults.NotFound();
 
-            result.Type = controller.Type;
-            result.Name = controller.Name;
-            result.Year = controller.Year;
-            result.Price = controller.Price;
+            result.Type = controllerDTO.Type;
+            result.Name = controllerDTO.Name;
+            result.Year = controllerDTO.Year;
+            result.Price = controllerDTO.Price;
 
             await _db.SaveChangesAsync();
 
             return TypedResults.NoContent();
         }
 
-        if (userModel is Game game) {
+        if (dtoModel is GameDTO gameDTO) {
            var result = await _db.Games.FindAsync(id);
             if (result is null)
                 return TypedResults.NotFound();
 
-            result.Genre = game.Genre;
-            result.Name = game.Name;
-            result.AgeRestriction = game.AgeRestriction;
-            result.Price = game.Price;
+            result.Genre = gameDTO.Genre;
+            result.Name = gameDTO.Name;
+            result.AgeRestriction = gameDTO.AgeRestriction;
+            result.Price = gameDTO.Price;
 
             await _db.SaveChangesAsync();
 
             return TypedResults.NoContent();
         }
 
-        if (userModel is BrasGames.Model.ServiceModels.Console console) {
+        if (dtoModel is ConsoleDTO consoleDTO) {
             var result = await _db.Consoles.FindAsync(id);
             if (result is null)
                 return TypedResults.NotFound();
 
-            result.Type = console.Type;
-            result.Name = console.Name; 
-            result.Price = console.Price;
-            result.ReleaseYear = console.ReleaseYear;
+            result.Type = consoleDTO.Type;
+            result.Name = consoleDTO.Name; 
+            result.Price = consoleDTO.Price;
+            result.ReleaseYear = consoleDTO.ReleaseYear;
 
             await _db.SaveChangesAsync();
 
@@ -134,6 +163,7 @@ public class BasicRESTService<T> where T : class
         return TypedResults.Problem("typeof generic userModel is not equal to typeof any service model");
     }
 
+    //DTO's in this method is useless
     public async Task<IResult> DeleteModel(int id)
     {
 
@@ -170,6 +200,7 @@ public class BasicRESTService<T> where T : class
         return TypedResults.Problem("typeof generic class parameter is not equal to typeof any service model");
     }
 
+    //DTO's here are useless
     public async Task<IResult> DeleteAllCModels()
     {
 
