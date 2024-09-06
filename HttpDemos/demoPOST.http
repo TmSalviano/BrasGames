@@ -4,9 +4,9 @@ POST http://localhost:5103/service/controller/
 Content-Type: application/json
 
 {
-  "name": "Super 3",
+  "name": "Super 5",
   "type": "Wireless",
-  "year": 2024,
+  "year": 2030,
   "price": 200
 }
 ###

@@ -6,6 +6,7 @@ using BrasGames.Model;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using BrasGames.Model.ServiceModels;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using BrasGames.Model.DTO.ServiceDTO;
 
 //There is a possibility this could be a static class. Don't forget about static constructors.
 
@@ -22,7 +23,11 @@ public class BasicRESTService<T> where T : class
 
     public async Task<IResult> GetAll() {
         if (_tType == _serviceModelTypes[0])
-            return TypedResults.Ok(await _db.Controllers.ToListAsync());
+        {
+            var models = await _db.Controllers.ToListAsync();
+            var result = models.Select(model => new ControllerDTO(model)).ToList();
+            return TypedResults.Ok(result);
+        }
         if (_tType == _serviceModelTypes[1])
             return TypedResults.Ok(await _db.Games.ToListAsync());
         if (_tType == _serviceModelTypes[2])
