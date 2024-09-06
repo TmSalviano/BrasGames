@@ -1,4 +1,7 @@
 using BrasGames.Data;
+using BrasGames.Model.DTO.BusinessDTO;
+using BrasGames.Model.DTO.ServiceDTO;
+using BrasGames.Model.ServiceModels;
 using Microsoft.EntityFrameworkCore;
 
 public class ComplexRESTService {
@@ -31,7 +34,10 @@ public class ComplexRESTService {
             collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
         }
 
-        return TypedResults.Ok(await collection.ToListAsync());
+        var models = await collection.ToListAsync();
+        var result = models.Select(model => new ConsoleDTO(model)).ToList();
+
+        return TypedResults.Ok(result);
     }
 
     public async Task<IResult> DeleteFilteredConsoles(
@@ -84,7 +90,9 @@ public class ComplexRESTService {
             collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
         }
 
-        return TypedResults.Ok(await collection.ToListAsync());
+        var models = await collection.ToListAsync();
+        var result = models.Select(model => new ControllerDTO(model));
+        return TypedResults.Ok(result);
     }
 
     public async Task<IResult> DeleteFilteredControllers(
@@ -137,7 +145,9 @@ public class ComplexRESTService {
             collection = collection.Where(model => model.Price >= priceLowerBound && model.Price <= priceUpperBound);
         }
 
-        return TypedResults.Ok(await collection.ToListAsync());
+        var models = await collection.ToListAsync();
+        var result = models.Select(model => new GameDTO(model));
+        return TypedResults.Ok(result);
     }
 
     public async Task<IResult> DeleteFilteredGames(
@@ -198,7 +208,9 @@ public class ComplexRESTService {
                 (model.TotalCost <= totalCostUpperBound));
         }
 
-        return TypedResults.Ok(await collection.ToListAsync());
+        var models = await collection.ToListAsync();
+        var result = models.Select(model => new DayStatsDTO(model));
+        return TypedResults.Ok(result);
     }
         
     public async Task<IResult> DeleteFilteredAgenda( 
@@ -271,7 +283,9 @@ public class ComplexRESTService {
             collection = collection.Where(model => model.isFired == isFiredSearch);
             }
 
-        return TypedResults.Ok(await collection.ToListAsync());
+        var models = await collection.ToListAsync();
+        var result = models.Select(model => new EmployeeDTO(model));
+        return TypedResults.Ok(result);
     }
 
     public async Task<IResult> DeleteFilteredEmployees( 
