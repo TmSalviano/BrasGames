@@ -22,13 +22,13 @@ namespace BrasGames.Model.DTO.BusinessDTO
 
         public SexType Sex {get; set;}
 
-        public bool isFired {get; set;} = false;
+        public bool IsFired {get; set;} = false;
         
         public DateTime EndOfContract {get; set;}
 
         public float Salary {get; set;}
 
-        public EmployeeDTO(EmployeeDTO employee) {
+        public EmployeeDTO(Employee employee) {
             Id = employee.Id;
             Name = employee.Name;
             Password = employee.Password;
@@ -36,7 +36,7 @@ namespace BrasGames.Model.DTO.BusinessDTO
             Age = employee.Age;
             YearsWorked = employee.YearsWorked;
             Sex = employee.Sex;
-            isFired = employee.isFired;
+            IsFired = employee.isFired;
             EndOfContract = employee.EndOfContract;
             Salary = employee.Salary;
         }

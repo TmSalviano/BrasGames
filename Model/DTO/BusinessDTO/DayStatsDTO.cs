@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BrasGames.Model.BusinessModels;
 
 namespace BrasGames.Model.DTO.BusinessDTO
 {
@@ -15,7 +16,7 @@ namespace BrasGames.Model.DTO.BusinessDTO
         public int TotalProfit { get; set; }
         public int TotalCost { get; set; }
 
-        public DayStatsDTO(DayStatsDTO dayStatsDTO) {
+        public DayStatsDTO(DayStats dayStatsDTO) {
             Id = dayStatsDTO.Id;    
             Day = dayStatsDTO.Day;
             TotalConsumers = dayStatsDTO.TotalConsumers;

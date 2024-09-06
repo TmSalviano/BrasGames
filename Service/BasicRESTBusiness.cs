@@ -1,10 +1,11 @@
 using BrasGames.Data;
 using BrasGames.Model.BusinessModels;
+using BrasGames.Model.DTO.BusinessDTO;
 using Microsoft.EntityFrameworkCore;
 
 public class BasicRESTBusiness<T> where T : class {
     private readonly BusinessDbContext _db;
-    private readonly Type[] _businessModelTypes = [ typeof(Employee), typeof(DayStats)];
+    private readonly Type[] _businessModelTypes = [ typeof(EmployeeDTO), typeof(DayStatsDTO)];
 
     public BasicRESTBusiness(BusinessDbContext db) {
         _db = db;
@@ -12,11 +13,17 @@ public class BasicRESTBusiness<T> where T : class {
 
     public async Task<IResult> GetAll() {
         //Employee
-        if ( typeof(T) == _businessModelTypes[0] ) 
-            return TypedResults.Ok(await _db.Employees.ToListAsync());
+        if ( typeof(T) == _businessModelTypes[0] )  {
+            var models = await _db.Employees.ToListAsync();
+            var result = models.Select(model => new EmployeeDTO(model)).ToList();
+            return TypedResults.Ok(result);
+        }
         //DayStats
-        if ( typeof(T) == _businessModelTypes[1] ) 
-            return TypedResults.Ok(await _db.Agenda.ToListAsync());
+        if ( typeof(T) == _businessModelTypes[1] )  {
+            var models = await _db.Agenda.ToListAsync();
+            var result = models.Select(model => new DayStatsDTO(model)).ToList();
+            return TypedResults.Ok(result);
+        }
 
         return TypedResults.Problem("Type T doesn't correspond to any of the Business Models.");
     }
@@ -28,7 +35,7 @@ public class BasicRESTBusiness<T> where T : class {
             if (result == null) {
                 return TypedResults.NotFound();
             }
-            return TypedResults.Ok(result);
+            return TypedResults.Ok(new EmployeeDTO(result));
         }
         //DayStats
         if ( typeof(T) == _businessModelTypes[1] ) {
@@ -36,29 +43,48 @@ public class BasicRESTBusiness<T> where T : class {
             if (result == null) {
                 return TypedResults.NotFound();
             }
-            return TypedResults.Ok(result);
+            return TypedResults.Ok(new DayStatsDTO(result));
         }
         return TypedResults.Problem("Type T doesn't correspond to any of the Business Models.");
     }
 
-    public async Task<IResult> PostModel(T userModel) {
+    public async Task<IResult> PostModel(T dtoModel) {
          //Employee
-        if ( userModel is Employee employee ) {
-            await _db.Employees.AddAsync(employee);
+        if ( dtoModel is EmployeeDTO employee ) {
+            await _db.Employees.AddAsync(
+                new Employee {
+                    Id = employee.Id,
+                    Name = employee.Name,
+                    Age = employee.Age,
+                    Email = employee.Email,
+                    EndOfContract = employee.EndOfContract,
+                    isFired = employee.IsFired,
+                    Password = employee.Password,
+                    Salary = employee.Salary,
+                    Sex = employee.Sex,
+                    YearsWorked = employee.YearsWorked,
+                }
+            );
             await _db.SaveChangesAsync();
             return TypedResults.Created("/business/employee/" + employee.Id, employee);
         }
         //DayStats
-        if ( userModel is DayStats dayStats ) {
-            await _db.Agenda.AddAsync(dayStats);
+        if ( dtoModel is DayStatsDTO dayStats ) {
+            await _db.Agenda.AddAsync(new DayStats() {
+                Id = dayStats.Id,
+                Day = dayStats.Day,
+                TotalConsumers = dayStats.TotalConsumers,
+                TotalCost = dayStats.TotalCost,
+                TotalProfit = dayStats.TotalProfit,
+            });
             await _db.SaveChangesAsync();
             return TypedResults.Created("/business/agenda/" + dayStats.Id, dayStats);
         }
         return TypedResults.Problem("userModel Type T doesn't correspond to any of the Business Models.");
     }
 
-    public async Task<IResult> PutModel(int id, T userModel) {
-        if (userModel is Employee employee) {
+    public async Task<IResult> PutModel(int id, T dtoModel) {
+        if (dtoModel is EmployeeDTO employee) {
             var result = await _db.Employees.FindAsync(id);
             if (result == null)
                 return TypedResults.NotFound();
@@ -70,7 +96,7 @@ public class BasicRESTBusiness<T> where T : class {
             result.Age = employee.Age;
             result.YearsWorked = employee.YearsWorked;
             result.Sex = employee.Sex;
-            result.isFired = employee.isFired;
+            result.isFired = employee.IsFired;
             result.EndOfContract = employee.EndOfContract;
             result.Salary = employee.Salary;
 
@@ -78,7 +104,7 @@ public class BasicRESTBusiness<T> where T : class {
             return TypedResults.NoContent();
         }
 
-        if (userModel is DayStats dayStats ) {
+        if (dtoModel is DayStatsDTO dayStats ) {
             var result = await _db.Agenda.FindAsync(id);
             if (result == null)
                 return TypedResults.NotFound();
@@ -93,9 +119,10 @@ public class BasicRESTBusiness<T> where T : class {
             return TypedResults.NoContent();
         }
 
-        return TypedResults.Problem("UserModel Type T doesn't correspond to any of the Business Models.");
+        return TypedResults.Problem("userModel Type T doesn't correspond to any of the Business Models.");
     }
 
+    //DTO's are useless
     public async Task<IResult> DeleteModel(int id) {
         //Employees
         if (typeof(T) == _businessModelTypes[0]) {
@@ -123,6 +150,7 @@ public class BasicRESTBusiness<T> where T : class {
         return TypedResults.Problem("Type T doesn't correspond to any of the Business Models.");
     }
 
+    //DTO's are useless
     public async Task<IResult> DeleteAllModels() {
         //Employees
         if (typeof(T) == _businessModelTypes[0]) {
