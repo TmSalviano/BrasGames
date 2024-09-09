@@ -1,0 +1,25 @@
+    //Controllers
+GET http://localhost:5103/service/controller/query/?nameSearch=5&priceLowerBound=2000
+###
+DELETE http://localhost:5103/service/controller/query/?nameSearch=5&priceLowerBound=2000
+###
+    //Games
+GET http://localhost:5103/service/game/query/?nameSearch=5&priceLowerBound=2000
+###
+DELETE http://localhost:5103/service/game/query/?nameSearch=5&priceLowerBound=2000
+###
+    //Console
+GET http://localhost:5103/service/console/query/?nameSearch=5&priceLowerBound=2000
+###
+DELETE http://localhost:5103/service/console/query/?nameSearch=5&priceLowerBound=2000
+###
+    //DayStats
+GET http://localhost:5103/business/agenda/query/?totalProfitLowerBound=100
+###
+DELETE  http://localhost:5103/business/agenda/query/?
+###
+    //Employee
+GET http://localhost:5103/business/employee/query/
+###
+DELETE  http://localhost:5103/business/employee/query/?password=123
+###

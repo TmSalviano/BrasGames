@@ -267,7 +267,7 @@ public class ComplexRESTService {
         var items = await collection.ToListAsync();
         if (items.Any()) {
             foreach (var item in items) {
-                _serviceDb.Remove(item);
+                _businessDb.Remove(item);
             }
         }
         await _businessDb.SaveChangesAsync();

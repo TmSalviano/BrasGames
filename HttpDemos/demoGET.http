@@ -19,22 +19,6 @@ GET http://localhost:5103/service/console/1
 GET http://localhost:5103/service/console/
 ###
 
-    //Query Requests
-    //Controllers
-GET http://localhost:5103/service/controller/query/?nameSearch=5&priceLowerBound=2000
-###
-DELETE http://localhost:5103/service/controller/query/?nameSearch=5&priceLowerBound=2000
-###
-    //Games
-GET http://localhost:5103/service/game/query/?nameSearch=5&priceLowerBound=2000
-###
-DELETE http://localhost:5103/service/game/query/?nameSearch=5&priceLowerBound=2000
-###
-    //Console
-GET http://localhost:5103/service/console/query/?nameSearch=5&priceLowerBound=2000
-###
-DELETE http://localhost:5103/service/console/query/?nameSearch=5&priceLowerBound=2000
-###
 
 // Business
     //DayStats
@@ -47,16 +31,4 @@ GET http://localhost:5103/business/agenda/
 GET http://localhost:5103/business/employee/2
 ###
 GET http://localhost:5103/business/employee/
-###
-
-    //Query Requests
-    //DayStats
-GET http://localhost:5103/business/agenda/query/?totalProfitLowerBound
-###
-DELETE  http://localhost:5103/business/agenda/query/?
-###
-    //Employee
-GET http://localhost:5103/business/employee/query/?password=123
-###
-DELETE  http://localhost:5103/business/employee/query/?password=123
 ###
