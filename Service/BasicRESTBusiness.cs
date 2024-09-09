@@ -15,13 +15,30 @@ public class BasicRESTBusiness<T> where T : class {
         //Employee
         if ( typeof(T) == _businessModelTypes[0] )  {
             var models = await _db.Employees.ToListAsync();
-            var result = models.Select(model => new EmployeeDTO(model)).ToList();
+            var result = models.Select(model => new EmployeeDTO {
+                Id = model.Id,
+                Name = model.Name,
+                Password = model.Password,
+                Email = model.Email,
+                Age = model.Age,
+                YearsWorked = model.YearsWorked,
+                Sex = model.Sex,
+                IsFired = model.isFired,
+                EndOfContract = model.EndOfContract,
+                Salary = model.Salary,
+            }).ToList();
             return TypedResults.Ok(result);
         }
         //DayStats
         if ( typeof(T) == _businessModelTypes[1] )  {
             var models = await _db.Agenda.ToListAsync();
-            var result = models.Select(model => new DayStatsDTO(model)).ToList();
+            var result = models.Select(model => new DayStatsDTO {
+                Id = model.Id,    
+                Day = model.Day,
+                TotalConsumers = model.TotalConsumers,
+                TotalProfit = model.TotalProfit,
+                TotalCost = model.TotalCost,
+            }).ToList();
             return TypedResults.Ok(result);
         }
 
@@ -35,7 +52,18 @@ public class BasicRESTBusiness<T> where T : class {
             if (result == null) {
                 return TypedResults.NotFound();
             }
-            return TypedResults.Ok(new EmployeeDTO(result));
+            return TypedResults.Ok(new EmployeeDTO {
+                Id = result.Id,
+                Name = result.Name,
+                Password = result.Password,
+                Email = result.Email,
+                Age = result.Age,
+                YearsWorked = result.YearsWorked,
+                Sex = result.Sex,
+                IsFired = result.isFired,
+                EndOfContract = result.EndOfContract,
+                Salary = result.Salary,
+            });
         }
         //DayStats
         if ( typeof(T) == _businessModelTypes[1] ) {
@@ -43,7 +71,13 @@ public class BasicRESTBusiness<T> where T : class {
             if (result == null) {
                 return TypedResults.NotFound();
             }
-            return TypedResults.Ok(new DayStatsDTO(result));
+            return TypedResults.Ok(new DayStatsDTO {
+                Id = result.Id,    
+                Day = result.Day,
+                TotalConsumers = result.TotalConsumers,
+                TotalProfit = result.TotalProfit,
+                TotalCost = result.TotalCost,
+            });
         }
         return TypedResults.Problem("Type T doesn't correspond to any of the Business Models.");
     }
@@ -89,7 +123,6 @@ public class BasicRESTBusiness<T> where T : class {
             if (result == null)
                 return TypedResults.NotFound();
 
-            result.Id = employee.Id;
             result.Name = employee.Name;
             result.Password = employee.Password;
             result.Email = employee.Email;
@@ -109,7 +142,6 @@ public class BasicRESTBusiness<T> where T : class {
             if (result == null)
                 return TypedResults.NotFound();
 
-            result.Id = dayStats.Id;
             result.Day = dayStats.Day;
             result.TotalConsumers = dayStats.TotalConsumers;
             result.TotalProfit = dayStats.TotalProfit;

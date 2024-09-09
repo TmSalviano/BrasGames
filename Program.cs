@@ -44,10 +44,10 @@ controller.MapGet("/", async (BasicRESTService<ControllerDTO> basicRESTService) 
 controller.MapGet("/{id:int}", async (int id, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
 });
-controller.MapPost("/", async (ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
+controller.MapPost("/", async ([FromBody] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PostModel(controller);
 });
-controller.MapPut("/{id}", async (int id, ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
+controller.MapPut("/{id}", async (int id, [ FromBody ] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, controller);
 });
 controller.MapDelete("/{id}", async (int id, BasicRESTService<ControllerDTO> basicRESTService) => {
@@ -79,10 +79,10 @@ game.MapGet("/", async (BasicRESTService<GameDTO> basicRESTService) => {
 game.MapGet("/{id:int}", async (int id, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
 });
-game.MapPost("/", async (GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
+game.MapPost("/", async ( [FromBody] GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.PostModel(game);
 });
-game.MapPut("/{id}", async (int id, GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
+game.MapPut("/{id}", async (int id, [ FromBody ] GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, game);
 });
 game.MapDelete("/{id}", async (int id, BasicRESTService<GameDTO> basicRESTService) => {
@@ -114,10 +114,10 @@ console.MapGet("/", async (BasicRESTService<ConsoleDTO> basicRESTService) => {
 console.MapGet("/{id:int}", async (int id, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
 });
-console.MapPost("/", async (ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
+console.MapPost("/", async ( [FromBody] ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.PostModel(console);
 });
-console.MapPut("/{id}", async (int id, ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
+console.MapPut("/{id}", async (int id, [ FromBody ] ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, console);
 });
 console.MapDelete("/{id}", async (int id, BasicRESTService<ConsoleDTO> basicRESTService) => {
@@ -151,7 +151,7 @@ employee.MapGet("/", async (BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) =>
 employee.MapGet("/{id:int}", async (int id, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.GetId(id);
 });
-employee.MapPost("/", async (EmployeeDTO employee, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
+employee.MapPost("/", async ( [FromBody] EmployeeDTO employee, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PostModel(employee);
 });
 employee.MapPut("/{id}", async (int id, EmployeeDTO employee, BasicRESTBusiness<EmployeeDTO> basicRESTBusiness) => {
@@ -186,10 +186,10 @@ agenda.MapGet("/", async (BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
 agenda.MapGet("/{id:int}", async (int id, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.GetId(id);
 });
-agenda.MapPost("/", async (DayStatsDTO dayStats, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
+agenda.MapPost("/", async ( [FromBody] DayStatsDTO dayStats, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PostModel(dayStats);
 });
-agenda.MapPut("/{id}", async (int id, DayStatsDTO dayStats, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
+agenda.MapPut("/{id}", async (int id, [ FromBody ] DayStatsDTO dayStats, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {
     return await basicRESTBusiness.PutModel(id, dayStats);
 });
 agenda.MapDelete("/{id}", async (int id, BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) => {

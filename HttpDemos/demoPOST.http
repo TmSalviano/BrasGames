@@ -4,10 +4,10 @@ POST http://localhost:5103/service/controller/
 Content-Type: application/json
 
 {
-  "name": "Super 5",
-  "type": "Wireless",
-  "year": 2030,
-  "price": 200
+  "name": "CONTROOOOLLLEERR 5",
+  "type": "SpaceShipController",
+  "year": 2100,
+  "price": 2000
 }
 ###
   //Game
@@ -15,10 +15,10 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "name": "Super Fun Game",
-  "ageRestriction": "13+",
-  "genre": "Adventure",
-  "price": 49.99
+  "name": "DTO Game",
+  "ageRestriction": "18+",
+  "genre": "Puzzle",
+  "price": 420.69
 }
 ###
 
@@ -28,7 +28,7 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "name": "Mega Console",
+  "name": "Mega Console DTO",
   "type": "Handheld",
   "releaseYear": "2023-01-01",
   "price": 299.99
@@ -41,9 +41,9 @@ Content-Type: application/json
 
 {
   "day": "2023-08-31",
-  "totalConsumers": 150,
-  "totalProfit": 12000,
-  "totalCost": 8000
+  "totalConsumers": 1000,
+  "totalProfit": 1000,
+  "totalCost": 1000
 }
 ###
   //Employee
@@ -51,14 +51,14 @@ Content-Type: application/json
 Content-Type: application/json
 
 {
-  "name": "Jane Doe",
-  "password": "SecurePassword123!",
-  "email": "janedoe@example.com",
-  "age": 28,
-  "yearsWorked": 3,
-  "sex": 0,
-  "isFired": false,
-  "endOfContract": "2025-08-31",
-  "salary": 60000.00
+  "name": "Dondale Dingle",
+  "password": "dondaledingle123!",
+  "email": "dondledingle@example.com",
+  "age": 69,
+  "yearsWorked": 420,
+  "sex": 1,
+  "isFired": true,
+  "endOfContract": "2100-08-31",
+  "salary": 69420.00
 }
 ###

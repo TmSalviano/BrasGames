@@ -28,17 +28,6 @@ namespace BrasGames.Model.DTO.BusinessDTO
 
         public float Salary {get; set;}
 
-        public EmployeeDTO(Employee employee) {
-            Id = employee.Id;
-            Name = employee.Name;
-            Password = employee.Password;
-            Email = employee.Email;
-            Age = employee.Age;
-            YearsWorked = employee.YearsWorked;
-            Sex = employee.Sex;
-            IsFired = employee.isFired;
-            EndOfContract = employee.EndOfContract;
-            Salary = employee.Salary;
-        }
+    
     }
 }

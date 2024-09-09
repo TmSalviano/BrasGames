@@ -1,6 +1,6 @@
 // Service
   //Controller
-PUT http://localhost:5103/service/controller/8
+PUT http://localhost:5103/service/controller/10
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
 
 
   //Console
-  PUT http://localhost:5103/service/console/3
+  PUT http://localhost:5103/service/console/1
 Content-Type: application/json
 
 {
@@ -40,7 +40,7 @@ Content-Type: application/json
 
 // Business
   //DayStats
-  PUT http://localhost:5103/business/agenda/1
+  PUT http://localhost:5103/business/agenda/2
 Content-Type: application/json
 
 {
@@ -53,7 +53,7 @@ Content-Type: application/json
 ###
 
   //Employee
-  PUT http://localhost:5103/business/employee/1
+  PUT http://localhost:5103/business/employee/2
 Content-Type: application/json
 
 {

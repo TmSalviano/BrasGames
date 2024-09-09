@@ -26,17 +26,35 @@ public class BasicRESTService<T> where T : class
         if (_tType == _serviceModelTypes[0])
         {
             var models = await _db.Controllers.ToListAsync();
-            var result = models.Select(model => new ControllerDTO(model)).ToList();
+            var result = models.Select(model => new ControllerDTO() {
+                Price = model.Price,
+                Type =  model.Type,
+                Name = model.Name,
+                Id = model.Id,
+                Year = model.Year,
+            }).ToList();
             return TypedResults.Ok(result);
         }
         if (_tType == _serviceModelTypes[1]) {
             var models = await _db.Games.ToListAsync();
-            var result = models.Select(model => new GameDTO(model)).ToList();
+            var result = models.Select(model => new GameDTO {
+                Id = model.Id,
+                Name = model.Name,
+                AgeRestriction = model.AgeRestriction,
+                Genre = model.Genre,
+                Price = model.Price,
+            }).ToList();
             return TypedResults.Ok(result);
         }
         if (_tType == _serviceModelTypes[2]) {
             var models = await _db.Consoles.ToListAsync();
-            var result = models.Select(model => new ConsoleDTO(model)).ToList();
+            var result = models.Select(model => new ConsoleDTO {
+                Id = model.Id,
+                Name = model.Name,
+                Type = model.Type,
+                ReleaseYear = model.ReleaseYear,
+                Price = model.Price,
+            }).ToList();
             return TypedResults.Ok(result);        
         }
         
@@ -50,19 +68,37 @@ public class BasicRESTService<T> where T : class
             var searchResult = await _db.Controllers.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
-            return TypedResults.Ok(new ControllerDTO(searchResult));
+            return TypedResults.Ok(new ControllerDTO {
+                Price = searchResult.Price,
+                Type =  searchResult.Type,
+                Name = searchResult.Name,
+                Id = searchResult.Id,
+                Year = searchResult.Year,
+            });
         }
         if (_tType == _serviceModelTypes[1]) {
             var searchResult = await _db.Games.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
-            return TypedResults.Ok(new GameDTO(searchResult));
+            return TypedResults.Ok(new GameDTO {
+                Id = searchResult.Id,
+                Name = searchResult.Name,
+                AgeRestriction = searchResult.AgeRestriction,
+                Genre = searchResult.Genre,
+                Price = searchResult.Price,
+            });
         }
         if (_tType == _serviceModelTypes[2]) {
             var searchResult = await _db.Consoles.FindAsync(id);
             if (searchResult is null)
                 return TypedResults.NotFound();
-            return TypedResults.Ok(new ConsoleDTO(searchResult));   
+            return TypedResults.Ok(new ConsoleDTO {
+                Id = searchResult.Id,
+                Name = searchResult.Name,
+                Type = searchResult.Type,
+                ReleaseYear = searchResult.ReleaseYear,
+                Price = searchResult.Price,
+            });   
         }
         
         return TypedResults.Problem("typeof generic class parameter is not equal to typeof any service model");
@@ -73,11 +109,11 @@ public class BasicRESTService<T> where T : class
         if (dtoModel is ControllerDTO controller) {
             await _db.Controllers.AddAsync(
                 new Controller() {
-                    Id = controller.Id,
-                    Name = controller.Name,
-                    Type = controller.Type,
                     Price = controller.Price,
-                    Year= controller.Year,
+                    Type =  controller.Type,
+                    Name = controller.Name,
+                    Id = controller.Id,
+                    Year = controller.Year,
                 }
             );
             await _db.SaveChangesAsync();

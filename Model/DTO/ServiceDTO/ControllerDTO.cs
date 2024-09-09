@@ -13,12 +13,5 @@ namespace BrasGames.Model.DTO.ServiceDTO
         public int Year {get; set;}
         public float Price {get; set;}
         
-        public ControllerDTO(Controller controller) {
-            Id = controller.Id;
-            Name = controller.Name;
-            Type = controller.Type;
-            Year = controller.Year;
-            Price = controller.Price;
-        }
     }
 }

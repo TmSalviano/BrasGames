@@ -7,13 +7,13 @@ DELETE http://localhost:5103/service/controller/
 ###
 
     //Game
-DELETE http://localhost:5103/service/game/2
+DELETE http://localhost:5103/service/game/1
 ###
 DELETE http://localhost:5103/service/game/
 ###
 
     //Console
-DELETE http://localhost:5103/service/console/2
+DELETE http://localhost:5103/service/console/1
 ###
 DELETE http://localhost:5103/service/console/
 ###
@@ -21,18 +21,19 @@ DELETE http://localhost:5103/service/console/
     //Query Requests
     //Controller
 DELETE  http://localhost:5103/service/controller/query/?nameSearch=3
+###    
     //Game
     //Console
 
 // Business
     //DayStats
-DELETE http://localhost:5103/business/agenda/1
+DELETE http://localhost:5103/business/agenda/2
 ###
 DELETE http://localhost:5103/business/agenda/
 ###
 
     //Employee
-DELETE http://localhost:5103/business/employee/5
+DELETE http://localhost:5103/business/employee/2
 ###
 DELETE http://localhost:5103/business/employee/
 ###

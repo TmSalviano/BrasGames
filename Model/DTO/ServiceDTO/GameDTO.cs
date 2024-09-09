@@ -15,12 +15,5 @@ namespace BrasGames.Model.DTO.ServiceDTO
         
         public float Price { get; set; }
 
-        public GameDTO(Game game) {
-            Id = game.Id;
-            Name = game.Name;
-            AgeRestriction = game.AgeRestriction;
-            Genre = game.Genre;
-            Price = game.Price;
-        }
     }
 }

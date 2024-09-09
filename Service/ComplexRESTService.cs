@@ -35,7 +35,13 @@ public class ComplexRESTService {
         }
 
         var models = await collection.ToListAsync();
-        var result = models.Select(model => new ConsoleDTO(model)).ToList();
+        var result = models.Select(model => new ConsoleDTO {
+            Id = model.Id,
+            Name = model.Name,
+            Type = model.Type,
+            ReleaseYear = model.ReleaseYear,
+            Price = model.Price,
+        }).ToList();
 
         return TypedResults.Ok(result);
     }
@@ -91,7 +97,13 @@ public class ComplexRESTService {
         }
 
         var models = await collection.ToListAsync();
-        var result = models.Select(model => new ControllerDTO(model));
+        var result = models.Select(model => new ControllerDTO() {
+            Price = model.Price,
+            Type =  model.Type,
+            Name = model.Name,
+            Id = model.Id,
+            Year = model.Year,
+        });
         return TypedResults.Ok(result);
     }
 
@@ -146,7 +158,13 @@ public class ComplexRESTService {
         }
 
         var models = await collection.ToListAsync();
-        var result = models.Select(model => new GameDTO(model));
+        var result = models.Select(model => new GameDTO {
+            Id = model.Id,
+            Name = model.Name,
+            AgeRestriction = model.AgeRestriction,
+            Genre = model.Genre,
+            Price = model.Price,
+        });
         return TypedResults.Ok(result);
     }
 
@@ -209,7 +227,13 @@ public class ComplexRESTService {
         }
 
         var models = await collection.ToListAsync();
-        var result = models.Select(model => new DayStatsDTO(model));
+        var result = models.Select(model => new DayStatsDTO {
+            Id = model.Id,    
+            Day = model.Day,
+            TotalConsumers = model.TotalConsumers,
+            TotalProfit = model.TotalProfit,
+            TotalCost = model.TotalCost,
+        });
         return TypedResults.Ok(result);
     }
         
@@ -284,7 +308,18 @@ public class ComplexRESTService {
             }
 
         var models = await collection.ToListAsync();
-        var result = models.Select(model => new EmployeeDTO(model));
+        var result = models.Select(model => new EmployeeDTO {
+            Id = model.Id,
+            Name = model.Name,
+            Password = model.Password,
+            Email = model.Email,
+            Age = model.Age,
+            YearsWorked = model.YearsWorked,
+            Sex = model.Sex,
+            IsFired = model.isFired,
+            EndOfContract = model.EndOfContract,
+            Salary = model.Salary,
+        });
         return TypedResults.Ok(result);
     }
 
@@ -323,7 +358,7 @@ public class ComplexRESTService {
         var items = await collection.ToListAsync();
         if (items.Any()) {
             foreach (var item in items) {
-                _serviceDb.Remove(item);
+                _businessDb.Remove(item);
             }
         }
         await _businessDb.SaveChangesAsync();

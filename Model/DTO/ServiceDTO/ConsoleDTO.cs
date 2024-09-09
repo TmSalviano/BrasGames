@@ -18,12 +18,6 @@ namespace BrasGames.Model.DTO.ServiceDTO
         
         public float Price { get; set; }
     
-        public ConsoleDTO (Console console) {
-            Id = console.Id;
-            Name = console.Name;
-            Type = console.Type;
-            ReleaseYear = console.ReleaseYear;
-            Price = console.Price;
-        }
+   
     }
 }
