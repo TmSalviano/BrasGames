@@ -3,18 +3,20 @@ POST http://localhost:5103/identity/register
 Content-Type: application/json
 
 {
-    "email": "tiago.salviano@hotmail.com",
-    "password": "IW1llBecome@BrasgamesG0d"
+    "email": "youremail@hotmail.com",
+    "password": "Password!23"
 }
 ###
 
+
 //Login
-POST http://localhost:5103/identity/login?useCookies=true
+//set useCookies to true to allow access to restricted endpoints without passing any authorization.
+POST http://localhost:5103/identity/login?useCookies=false
 Content-Type: application/json
 
 {
-    "email": "tiago.salviano@hotmail.com",
-    "password": "IW1llBecome@BrasgamesG0d"
+    "email": "youremail@hotmail.com",
+    "password": "Password!23"
 }
 ###
 
@@ -23,14 +25,68 @@ POST http://localhost:5103/identity/refresh
 Content-Type: application/json
 
 {
-    "refreshToken": ""
+    "refreshToken": "refreshToken from Login response"
 }
 ###
 
+//Logout
 POST http://localhost:5103/identity/logout
 Content-Type: application/json
 
 {
 
+}
+###
+
+//gets your email and if it's confirmed or not.
+GET http://localhost:5103/identity/manage/info
+Authorization: Bearer {accessToken from Login response}
+###
+
+//Changes your email and password
+POST http://localhost:5103/identity/manage/info
+Content-Type: application/json
+Authorization: Bearer {accessToken from Login}
+
+{
+  "newEmail": "yourNewEmail@hotmail.com",
+  "newPassword": "newPassword!23",
+  "oldPassword": "Password!23"
+}
+###
+
+// Other Identity API endpoints
+// Not implement due to my account being rejected by SendGrid
+POST http://localhost:5103/identity/confirmEmailuserId={user ID}&code={generated code}&changedEmail={new email address}
+Content-Type: application/json
+
+{
+    "email": "youremail@hotmail.com"
+}
+###
+
+POST http://localhost:5103/identity/resendConfirmationEmail
+Content-Type: application/json
+
+{
+    "email": "youremail@hotmail.com"
+}
+###
+
+POST http://localhost:5103/identity/forgotPassword
+Content-Type: application/json
+
+{
+    "email": "youremail@hotmail.com"
+}
+###
+
+POST http://localhost:5103/identity/resetPassword
+Content-Type: application/json
+
+{
+  "email": "string",
+  "resetCode": "string",
+  "newPassword": "string"
 }
 ###

@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// !!! DO NOT FORGET TO REMOVE PERSONAL INFORMATION WHEN COMMITING TO REPO !!!
 //Activating Identity API
 builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<UsersDbContext>();
 
