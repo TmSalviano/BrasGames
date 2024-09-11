@@ -1,0 +1,36 @@
+//Register
+POST http://localhost:5103/identity/register
+Content-Type: application/json
+
+{
+    "email": "tiago.salviano@hotmail.com",
+    "password": "IW1llBecome@BrasgamesG0d"
+}
+###
+
+//Login
+POST http://localhost:5103/identity/login?useCookies=true
+Content-Type: application/json
+
+{
+    "email": "tiago.salviano@hotmail.com",
+    "password": "IW1llBecome@BrasgamesG0d"
+}
+###
+
+//Refresh
+POST http://localhost:5103/identity/refresh
+Content-Type: application/json
+
+{
+    "refreshToken": ""
+}
+###
+
+POST http://localhost:5103/identity/logout
+Content-Type: application/json
+
+{
+
+}
+###

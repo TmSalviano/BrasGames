@@ -4,7 +4,7 @@ POST http://localhost:5103/service/controller/
 Content-Type: application/json
 
 {
-  "name": "CONTROOOOLLLEERR 5",
+  "name": "CONTROOOOLLLEERR 6",
   "type": "SpaceShipController",
   "year": 2100,
   "price": 2000

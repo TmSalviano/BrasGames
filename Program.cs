@@ -1,38 +1,64 @@
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using BrasGames.Data;
+using BrasGames.Identity.Data;
+using BrasGames.Identity.Models;
+using BrasGames.Identity.Service;
 using BrasGames.Model.BusinessModels;
 using BrasGames.Model.DTO.BusinessDTO;
 using BrasGames.Model.DTO.ServiceDTO;
 using BrasGames.Model.ServiceModels;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// TypedResult Methods will be used for HTTP methods with complex LINQ query operations.
-// Dont forget the DTO's 
+//Activating Identity API
+builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<UsersDbContext>();
 
 //Connecting to the Databases
 builder.Services.AddDbContext<BusinessDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("BusinessDbConnection")));
 builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("ServiceDbConnection")));
+builder.Services.AddDbContext<UsersDbContext>(opt => opt.UseInMemoryDatabase("Users"));
+
+//Registering HTTP Method Services
 builder.Services.AddScoped(typeof(BasicRESTService<>));
 builder.Services.AddScoped(typeof(BasicRESTBusiness<>));
 builder.Services.AddScoped(typeof(ComplexRESTService));
+
+//Identity Service Registration
+builder.Services.AddScoped(typeof(IdentityAddition));
+
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 if (builder.Environment.IsDevelopment()) {
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 }
 
 var app = builder.Build();
+app.UseAuthentication();
+app.UseAuthorization();
 
 if (app.Environment.IsDevelopment())
 {
    
 }
 
+//Identity
+var identity = app.MapGroup("/identity");
+identity.MapIdentityApi<User>();
+
+identity.MapPost("/logout", async(IdentityAddition service, [FromBody] object? none = null) => {
+    return await service.Logout(none);
+}).RequireAuthorization();
+
+
+//Service
 var service = app.MapGroup("/service");
 
 var controller = service.MapGroup("/controller"); //Working
@@ -46,7 +72,7 @@ controller.MapGet("/{id:int}", async (int id, BasicRESTService<ControllerDTO> ba
 });
 controller.MapPost("/", async ([FromBody] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PostModel(controller);
-});
+}).RequireAuthorization();
 controller.MapPut("/{id}", async (int id, [ FromBody ] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, controller);
 });
