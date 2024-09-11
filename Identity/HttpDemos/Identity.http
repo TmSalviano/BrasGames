@@ -11,7 +11,7 @@ Content-Type: application/json
 
 //Login
 //set useCookies to true to allow access to restricted endpoints without passing any authorization.
-POST http://localhost:5103/identity/login?useCookies=false
+POST http://localhost:5103/identity/login?useCookies=true
 Content-Type: application/json
 
 {

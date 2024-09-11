@@ -1,5 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using System.Security.Claims;
 using BrasGames.Data;
 using BrasGames.Identity.Data;
 using BrasGames.Identity.Models;
@@ -10,6 +11,7 @@ using BrasGames.Model.DTO.ServiceDTO;
 using BrasGames.Model.ServiceModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
@@ -17,13 +19,9 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// !!! DO NOT FORGET TO REMOVE PERSONAL INFORMATION WHEN COMMITING TO REPO !!!
+// !!! I had no idea working with role based authorization would be so hard. Changing plans !!!
 /* Now you need to think of how you are going to use Identity for something useful. Use it for:
-    * Use roles to distinguish Consumers from Employees from the Manager.
-    1. Endpoints that anybody can access. Endpoints that only Employeescan access. Endpoints that only Admin(Manager) can Access.
-    2. Create different DTOs that will be return for different Roles hiding restricted data depending on the role.
-        * (example) For the GET Employees return a DTO with all employee information if Admin, else return another DTO only with
-        non sensitive information.
+    Bro honestly, just decide which ones should required authentication and which ones should't.
  */
 
 
@@ -51,6 +49,8 @@ if (builder.Environment.IsDevelopment()) {
 }
 
 var app = builder.Build();
+
+
 app.UseAuthentication();
 app.UseAuthorization();
 
