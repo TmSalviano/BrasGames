@@ -18,6 +18,15 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // !!! DO NOT FORGET TO REMOVE PERSONAL INFORMATION WHEN COMMITING TO REPO !!!
+/* Now you need to think of how you are going to use Identity for something useful. Use it for:
+    * Use roles to distinguish Consumers from Employees from the Manager.
+    1. Endpoints that anybody can access. Endpoints that only Employeescan access. Endpoints that only Admin(Manager) can Access.
+    2. Create different DTOs that will be return for different Roles hiding restricted data depending on the role.
+        * (example) For the GET Employees return a DTO with all employee information if Admin, else return another DTO only with
+        non sensitive information.
+ */
+
+
 //Activating Identity API
 builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<UsersDbContext>();
 
@@ -73,7 +82,7 @@ controller.MapGet("/{id:int}", async (int id, BasicRESTService<ControllerDTO> ba
 });
 controller.MapPost("/", async ([FromBody] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PostModel(controller);
-}).RequireAuthorization();
+});
 controller.MapPut("/{id}", async (int id, [ FromBody ] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PutModel(id, controller);
 });
