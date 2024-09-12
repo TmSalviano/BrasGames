@@ -1,0 +1,15 @@
+POST http://localhost:5103/identity/client-confirm
+Content-Type: application/json
+
+{
+
+}
+###
+
+POST http://localhost:5103/identity/employee-confirm 
+Content-Type: application/json
+
+{
+
+}
+###

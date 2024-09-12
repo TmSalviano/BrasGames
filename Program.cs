@@ -19,13 +19,11 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// !!! I had no idea working with role based authorization would be so hard. Changing plans !!!
-/* Now you need to think of how you are going to use Identity for something useful. Use it for:
-    Bro honestly, just decide which ones should required authentication and which ones should't.
-
-    Check if the employees email and passowrd in the employees model is the same of the UserIdentity. to give Employee Role.
- */
-
+// Create a sqlite UserIdentityDb instead of InMemory
+// 1. Seed the Employees DbSet and other Dbsets for presentation of the project . Create a Seeder Service.
+// 2. Dont forget to test the confirm-employee method after seeding
+// 3. Test Controller endpoints (similar to all other endpoints), also Test DayStats and Employees endpoints with all levels
+// of authorization.
 
 
 
@@ -51,7 +49,7 @@ builder.Services.AddAuthentication();
 builder.Services.AddAuthorization( opt => {
     opt.AddPolicy("Level3", policy => policy.RequireRole("Owner"));
     opt.AddPolicy("Level2", policy => policy.RequireRole("Owner", "Employee"));
-    opt.AddPolicy("Level1", policy => policy.RequireRole("Owner", "Employee", "Client"));
+    opt.AddPolicy("Level1", policy => policy.RequireRole("Owner", "Employees", "Client"));
 });
 
 if (builder.Environment.IsDevelopment()) {
@@ -74,18 +72,19 @@ using (var scope = app.Services.CreateScope()) {
 
 using (var scope = app.Services.CreateScope()) {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
     var email = "owner@outlook.com";
     var password = "Owner!23";
+    if (userManager.FindByEmailAsync(email) == null) {
+        var user = new IdentityUser();
+        user.UserName = email;
+        user.Email = email;
+        user.EmailConfirmed = true;
 
+        await userManager.CreateAsync(user, password);
 
-    var user = new IdentityUser();
-    user.UserName = email;
-    user.Email = email;
-    user.EmailConfirmed = true;
-
-    await userManager.CreateAsync(user, password);
-
-    await userManager.AddToRoleAsync(user, "Owner");
+        await userManager.AddToRoleAsync(user, "Owner");
+    }
 }
 
 app.UseAuthentication();
@@ -101,9 +100,16 @@ var identity = app.MapGroup("/identity");
 identity.MapIdentityApi<IdentityUser>();
 
 identity.MapPost("/logout", async(IdentityAddition service, [FromBody] object? none = null) => {
-    return await service.Logout(none);
+    return await service.LogoutAsync(none);
 }).RequireAuthorization();
 
+identity.MapPost("/client-confirm", async(IdentityAddition service, HttpContext httpContext, [FromBody] object? none = null) => {
+    return await service.AddClientRoleAsync(none, httpContext);
+}).RequireAuthorization();
+
+identity.MapPost("/employee-confirm", async(IdentityAddition service, HttpContext httpContext, [FromBody] object? none = null) => {
+    return await service.AddEmployeeRoleAsync(none, httpContext);
+}).RequireAuthorization();
 
 //Service
 var service = app.MapGroup("/service");
@@ -113,10 +119,10 @@ var controller = service.MapGroup("/controller"); //Working
 //Controller: HTTP Basic Methods
 controller.MapGet("/", async (BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.GetAll();
-});
+}).RequireAuthorization("Level1");
 controller.MapGet("/{id:int}", async (int id, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
-});
+}).RequireAuthorization("Level1");
 controller.MapPost("/", async ([FromBody] ControllerDTO controller, BasicRESTService<ControllerDTO> basicRESTService) => {
     return await basicRESTService.PostModel(controller);
 }).RequireAuthorization("Level2");
@@ -149,10 +155,10 @@ var game = service.MapGroup("/game"); //Working
 //Game: HTTP Basic Methods
 game.MapGet("/", async (BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.GetAll();
-});
+}).RequireAuthorization("Level1");
 game.MapGet("/{id:int}", async (int id, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
-});
+}).RequireAuthorization("Level1");
 game.MapPost("/", async ( [FromBody] GameDTO game, BasicRESTService<GameDTO> basicRESTService) => {
     return await basicRESTService.PostModel(game);
 }).RequireAuthorization("Level2");
@@ -184,10 +190,10 @@ var console = service.MapGroup("/console");
 //Console: HTTP Basic Methods. Using ConsoleModel as ServiceModels.Console. - Working
 console.MapGet("/", async (BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.GetAll();
-});
+}).RequireAuthorization("Level1");
 console.MapGet("/{id:int}", async (int id, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.GetId(id);
-});
+}).RequireAuthorization("Level1");
 console.MapPost("/", async ( [FromBody] ConsoleDTO console, BasicRESTService<ConsoleDTO> basicRESTService) => {
     return await basicRESTService.PostModel(console);
 }).RequireAuthorization("Level2");
