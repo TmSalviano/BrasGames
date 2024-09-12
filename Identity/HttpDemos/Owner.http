@@ -1,0 +1,7 @@
+POST http://localhost:5103/identity/login?useCookies=true
+Content-Type: application/json
+
+{
+    "email": "owner@outlook.com",
+    "password": "Owner!23"
+}

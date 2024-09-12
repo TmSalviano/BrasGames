@@ -1,14 +1,13 @@
 using System.Security.Claims;
-using BrasGames.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace BrasGames.Identity.Service
 {
     public class IdentityAddition
     {
-        private readonly SignInManager<User> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public IdentityAddition(SignInManager<User> signInManager) {
+        public IdentityAddition(SignInManager<IdentityUser> signInManager) {
             _signInManager = signInManager;
         }
 
