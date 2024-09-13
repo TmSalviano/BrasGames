@@ -1,3 +1,5 @@
+//The owner doesn't need to registe or confirm that he is the owner.
+
 POST http://localhost:5103/identity/login?useCookies=true
 Content-Type: application/json
 
@@ -5,3 +7,4 @@ Content-Type: application/json
     "email": "owner@outlook.com",
     "password": "Owner!23"
 }
+###

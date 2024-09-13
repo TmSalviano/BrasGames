@@ -8,22 +8,22 @@ using BrasGames.Model.BusinessModels;
 using BrasGames.Model.DTO.BusinessDTO;
 using BrasGames.Model.DTO.ServiceDTO;
 using BrasGames.Model.ServiceModels;
+using BrasGames.Seed;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Create a sqlite UserIdentityDb instead of InMemory
-// 1. Seed the Employees DbSet and other Dbsets for presentation of the project . Create a Seeder Service.
-// 2. Dont forget to test the confirm-employee method after seeding
-// 3. Test Controller endpoints (similar to all other endpoints), also Test DayStats and Employees endpoints with all levels
-// of authorization.
+// 1. Seed the databases in order for them to have data for people to play with
+// 3.Test DayStats and Employees endpoints with Level3 authorization
 
 
 
@@ -49,7 +49,7 @@ builder.Services.AddAuthentication();
 builder.Services.AddAuthorization( opt => {
     opt.AddPolicy("Level3", policy => policy.RequireRole("Owner"));
     opt.AddPolicy("Level2", policy => policy.RequireRole("Owner", "Employee"));
-    opt.AddPolicy("Level1", policy => policy.RequireRole("Owner", "Employees", "Client"));
+    opt.AddPolicy("Level1", policy => policy.RequireRole("Owner", "Employee", "Client"));
 });
 
 if (builder.Environment.IsDevelopment()) {
@@ -85,6 +85,11 @@ using (var scope = app.Services.CreateScope()) {
 
         await userManager.AddToRoleAsync(user, "Owner");
     }
+}
+
+using (var scope = app.Services.CreateScope()){
+    var serviceProvider = scope.ServiceProvider;
+    await Seeder.SeedEmployees(serviceProvider);
 }
 
 app.UseAuthentication();

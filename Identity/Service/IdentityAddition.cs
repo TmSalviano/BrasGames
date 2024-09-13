@@ -74,7 +74,7 @@ namespace BrasGames.Identity.Service
                     {
                         var empsData = await _businessDbContext.Employees.Select(e => e.Email).ToListAsync();
 
-                        if (!empsData.Where(email => email ==user.Email).Any() || empsData.Where(email => email == user.Email).Any()!) {
+                        if (!empsData.Where(email => email ==user.Email).Any() && empsData.Where(email => email == user.Email).Any()!) {
                             return TypedResults.BadRequest("Employee not registered in the database. Owner needs to add your account to the database: /business/employee.");
                         }
 

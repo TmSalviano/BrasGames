@@ -1,0 +1,28 @@
+//Employees not only have to be registered. 
+//They have to be added to the Employees table by the manager, and login with the database's email and password.
+
+POST http://localhost:5103/identity/register
+Content-Type: application/json
+
+{
+    "email": "tiago.salviano@outlook.com",
+    "password": "Mypassword!23"
+}
+###
+
+POST http://localhost:5103/identity/login?useCookies=true
+Content-Type: application/json
+
+{
+    "email": "tiago.salviano@outlook.com",
+    "password": "Mypassword!23"
+}
+###
+
+POST http://localhost:5103/identity/employee-confirm
+Content-Type: application/json
+
+{
+
+}
+###

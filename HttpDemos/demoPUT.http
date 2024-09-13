@@ -1,3 +1,4 @@
+//Remove authorization if you are using cookies
 // Service
   //Controller
 PUT http://localhost:5103/service/controller/10

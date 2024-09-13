@@ -1,12 +1,22 @@
-POST http://localhost:5103/identity/client-confirm
+POST http://localhost:5103/identity/register
 Content-Type: application/json
 
 {
-
+    "email": "youremail@hotmail.com",
+    "password": "Password!23"
 }
 ###
 
-POST http://localhost:5103/identity/employee-confirm 
+POST http://localhost:5103/identity/login?useCookies=true
+Content-Type: application/json
+
+{
+    "email": "youremail@hotmail.com",
+    "password": "Password!23"
+}
+###
+
+POST http://localhost:5103/identity/client-confirm
 Content-Type: application/json
 
 {
