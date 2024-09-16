@@ -21,18 +21,13 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Create a sqlite UserIdentityDb instead of InMemory  for UseIdentity models
-// 1. Seed the databases in order for them to have data for people to play with
-
-
-
 //Activating Identity API
 builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddRoles<IdentityRole>().AddEntityFrameworkStores<UsersDbContext>();
 
 //Connecting to the Databases
 builder.Services.AddDbContext<BusinessDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("BusinessDbConnection")));
 builder.Services.AddDbContext<ServiceDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("ServiceDbConnection")));
-builder.Services.AddDbContext<UsersDbContext>(opt => opt.UseInMemoryDatabase("Users"));
+builder.Services.AddDbContext<UsersDbContext>(opt => opt.UseSqlite(builder.Configuration.GetConnectionString("IdentityUserDbConnection")));
 
 //Registering HTTP Method Services
 builder.Services.AddScoped(typeof(BasicRESTService<>));
