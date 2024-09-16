@@ -1,4 +1,13 @@
 //The owner doesn't need to registe or confirm that he is the owner.
+//Register
+POST http://localhost:5103/identity/register
+Content-Type: application/json
+
+{
+    "email": "owner@outlook.com",
+    "password": "Owner!23"
+}
+###
 
 POST http://localhost:5103/identity/login?useCookies=true
 Content-Type: application/json
@@ -6,5 +15,14 @@ Content-Type: application/json
 {
     "email": "owner@outlook.com",
     "password": "Owner!23"
+}
+###
+
+//Logout
+POST http://localhost:5103/identity/logout
+Content-Type: application/json
+
+{
+
 }
 ###

@@ -14,7 +14,7 @@ GET http://localhost:5103/service/console/query/?nameSearch=5&priceLowerBound=20
 DELETE http://localhost:5103/service/console/query/?nameSearch=5&priceLowerBound=2000
 ###
     //DayStats
-GET http://localhost:5103/business/agenda/query/?totalProfitLowerBound=100
+GET http://localhost:5103/business/agenda/query/?totalProfitLowerBound=100&dateSearch=2023-08-31
 ###
 DELETE  http://localhost:5103/business/agenda/query/?
 ###

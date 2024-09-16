@@ -1,7 +1,7 @@
 //Remove authorization if you are using cookies
 // Service
   //Controller
-PUT http://localhost:5103/service/controller/10
+PUT http://localhost:5103/service/controller/12
 Content-Type: application/json
 
 {
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 
   //Console
-  PUT http://localhost:5103/service/console/1
+  PUT http://localhost:5103/service/console/3
 Content-Type: application/json
 
 {
@@ -41,7 +41,7 @@ Content-Type: application/json
 
 // Business
   //DayStats
-  PUT http://localhost:5103/business/agenda/2
+  PUT http://localhost:5103/business/agenda/4
 Content-Type: application/json
 
 {
@@ -54,7 +54,7 @@ Content-Type: application/json
 ###
 
   //Employee
-  PUT http://localhost:5103/business/employee/2
+  PUT http://localhost:5103/business/employee/4
 Content-Type: application/json
 
 {

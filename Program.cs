@@ -22,7 +22,7 @@ using Microsoft.Extensions.Options;
 var builder = WebApplication.CreateBuilder(args);
 
 // Create a sqlite UserIdentityDb instead of InMemory
-// 1. Seed the databases in order for them to have data for people to play with
+// 1.Seed the databases in order for them to have data for people to play with
 // 3.Test DayStats and Employees endpoints with Level3 authorization
 
 
@@ -69,27 +69,36 @@ using (var scope = app.Services.CreateScope()) {
         }
     } 
 }
-
+using (var scope = app.Services.CreateScope()){
+    var serviceProvider = scope.ServiceProvider;
+    await Seeder.SeedEmployees(serviceProvider);
+}
 using (var scope = app.Services.CreateScope()) {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
     var email = "owner@outlook.com";
     var password = "Owner!23";
-    if (userManager.FindByEmailAsync(email) == null) {
-        var user = new IdentityUser();
+    var user = await userManager.FindByEmailAsync(email);
+    if (user == null) {
+        user = new IdentityUser();
         user.UserName = email;
         user.Email = email;
         user.EmailConfirmed = true;
 
-        await userManager.CreateAsync(user, password);
+        var result = await userManager.CreateAsync(user, password);
 
-        await userManager.AddToRoleAsync(user, "Owner");
+        if (result.Succeeded)
+        {
+            // Add user to role
+            await userManager.AddToRoleAsync(user, "Owner");
+        }
+        else
+        {
+            // Handle failure to create user
+            // For example, log errors or throw an exception
+            throw new Exception($"Failed to create user: {string.Join(", ", result.Errors.Select(e => e.Description))}");
+        }
     }
-}
-
-using (var scope = app.Services.CreateScope()){
-    var serviceProvider = scope.ServiceProvider;
-    await Seeder.SeedEmployees(serviceProvider);
 }
 
 app.UseAuthentication();

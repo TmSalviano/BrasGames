@@ -3,7 +3,7 @@
     //Basic RESTAPI Requests
 
     //Controller
-GET http://localhost:5103/service/controller/10
+GET http://localhost:5103/service/controller/12
 ###
 GET http://localhost:5103/service/controller/
 ###
@@ -15,7 +15,7 @@ GET http://localhost:5103/service/game/
 ###
 
     //Console
-GET http://localhost:5103/service/console/1
+GET http://localhost:5103/service/console/3
 ###
 GET http://localhost:5103/service/console/
 ###
@@ -23,13 +23,13 @@ GET http://localhost:5103/service/console/
 
 // Business
     //DayStats
-GET http://localhost:5103/business/agenda/2
+GET http://localhost:5103/business/agenda/4
 ###
 GET http://localhost:5103/business/agenda/
 ###
 
     //Employee
-GET http://localhost:5103/business/employee/2
+GET http://localhost:5103/business/employee/4
 ###
 GET http://localhost:5103/business/employee/
 ###

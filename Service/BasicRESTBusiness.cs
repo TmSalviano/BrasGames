@@ -104,7 +104,17 @@ public class BasicRESTBusiness<T> where T : class {
         }
         //DayStats
         if ( dtoModel is DayStatsDTO dayStats ) {
-            await _db.Agenda.AddAsync(new DayStats() {
+             var existingRecord = await _db.Agenda
+            .FirstOrDefaultAsync(a => a.Day == dayStats.Day);
+        
+            if (existingRecord != null)
+            {
+                // Handle the case where a duplicate is found
+                return TypedResults.Conflict("A record with this Day value already exists.");
+            }
+
+            await _db.Agenda.AddAsync(new DayStats
+            {
                 Id = dayStats.Id,
                 Day = dayStats.Day,
                 TotalConsumers = dayStats.TotalConsumers,

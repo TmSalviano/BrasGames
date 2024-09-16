@@ -38,12 +38,13 @@ Content-Type: application/json
 }
 ###
 // Business
+  //Be carefull to input dates that do not exist.
   //DayStats
   POST http://localhost:5103/business/agenda/
 Content-Type: application/json
 
 {
-  "day": "2023-08-31",
+  "day": "2023-09-21",
   "totalConsumers": 1000,
   "totalProfit": 1000,
   "totalCost": 1000
