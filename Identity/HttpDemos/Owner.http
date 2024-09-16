@@ -1,4 +1,5 @@
 //The owner doesn't need to registe or confirm that he is the owner.
+//The owner data is cannot be retrieved by endpoints.
 //Register
 POST http://localhost:5103/identity/register
 Content-Type: application/json

@@ -71,7 +71,9 @@ using (var scope = app.Services.CreateScope()) {
 using (var scope = app.Services.CreateScope()){
     var serviceProvider = scope.ServiceProvider;
     await Seeder.SeedBusinessDb(serviceProvider);
+    await Seeder.SeedServiceDb(serviceProvider);
 }
+
 using (var scope = app.Services.CreateScope()) {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
