@@ -21,9 +21,8 @@ using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Create a sqlite UserIdentityDb instead of InMemory
-// 1.Seed the databases in order for them to have data for people to play with
-// 3.Test DayStats and Employees endpoints with Level3 authorization
+// Create a sqlite UserIdentityDb instead of InMemory  for UseIdentity models
+// 1. Seed the databases in order for them to have data for people to play with
 
 
 
@@ -71,7 +70,7 @@ using (var scope = app.Services.CreateScope()) {
 }
 using (var scope = app.Services.CreateScope()){
     var serviceProvider = scope.ServiceProvider;
-    await Seeder.SeedEmployees(serviceProvider);
+    await Seeder.SeedBusinessDb(serviceProvider);
 }
 using (var scope = app.Services.CreateScope()) {
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
@@ -153,14 +152,14 @@ controller.MapDelete("/", async (BasicRESTService<ControllerDTO> basicRESTServic
 
 //Controller: Http Query Methods
 controller.MapGet("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
-        return await complexRESTService.GetFilteredControllers(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? name, string? type, int? releaseYear, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
+        return await complexRESTService.GetFilteredControllers(name, type, releaseYear, priceLowerBound, priceUpperBound);
     } 
 );
 
 controller.MapDelete("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, int? releaseYearSearch, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
-        return await complexRESTService.DeleteFilteredControllers(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? name, string? type, int? releaseYear, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
+        return await complexRESTService.DeleteFilteredControllers(name, type, releaseYear, priceLowerBound, priceUpperBound);
     } 
 ).RequireAuthorization("Level3");
 
@@ -188,14 +187,14 @@ game.MapDelete("/", async (BasicRESTService<GameDTO> basicRESTService) => {
 
 //Game: Http Query Methods
 game.MapGet("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
-        return await complexRESTService.GetFilteredGames(nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? name, string? ageRestriction, string? genre, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
+        return await complexRESTService.GetFilteredGames(name, ageRestriction, genre, priceLowerBound, priceUpperBound);
     } 
 );
 
 game.MapDelete("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch, string? ageRestrictionSearch, string? genreSearch, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
-        return await complexRESTService.DeleteFilteredGames(nameSearch, ageRestrictionSearch, genreSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? name, string? ageRestriction, string? genre, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
+        return await complexRESTService.DeleteFilteredGames(name, ageRestriction, genre, priceLowerBound, priceUpperBound);
     } 
 ).RequireAuthorization("Level3");
 
@@ -223,14 +222,14 @@ console.MapDelete("/", async (BasicRESTService<ConsoleDTO> basicRESTService) => 
 
 //Console Http Query Methods
 console.MapGet("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
-        return await complexRESTService.GetFilteredConsoles(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? name, string? type, DateTime? releaseYear, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
+        return await complexRESTService.GetFilteredConsoles(name, type, releaseYear, priceLowerBound, priceUpperBound);
     } 
 );
 
 console.MapDelete("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch, string? typeSearch, DateTime? releaseYearSearch, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
-        return await complexRESTService.DeleteFilteredConsoles(nameSearch, typeSearch, releaseYearSearch, priceLowerBound, priceUpperBound);
+    ComplexRESTService complexRESTService, string? name, string? type, DateTime? releaseYear, float priceLowerBound = 0, float priceUpperBound = float.MaxValue) => {
+        return await complexRESTService.DeleteFilteredConsoles(name, type, releaseYear, priceLowerBound, priceUpperBound);
     } 
 ).RequireAuthorization("Level3");
 
@@ -260,14 +259,14 @@ employee.MapDelete("/", async (BasicRESTBusiness<EmployeeDTO> basicRESTBusiness)
 
 //Employees Query Methods
 employee.MapGet("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch,  bool? isFiredSearch, int ageLowerBound = 0, int ageUpperBound = int.MaxValue, int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue, float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue) => {
-        return await complexRESTService.GetFilteredEmployees(nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
+    ComplexRESTService complexRESTService, string? name,  bool? isFired, int ageLowerBound = 0, int ageUpperBound = int.MaxValue, int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue, float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue) => {
+        return await complexRESTService.GetFilteredEmployees(name, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFired);
     } 
 ).RequireAuthorization("Level2");
 
 employee.MapDelete("/query/", async(
-    ComplexRESTService complexRESTService, string? nameSearch,  bool? isFiredSearch, int ageLowerBound = 0, int ageUpperBound = int.MaxValue, int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue, float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue) => {
-        return await complexRESTService.DeleteFilteredEmployees(nameSearch, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFiredSearch);
+    ComplexRESTService complexRESTService, string? name,  bool? isFired, int ageLowerBound = 0, int ageUpperBound = int.MaxValue, int yearsWorkedLowerBound = 0, int yearsWorkedUpperBound = int.MaxValue, float salaryLowerBound = 0, float salaryUpperBound = float.MaxValue) => {
+        return await complexRESTService.DeleteFilteredEmployees(name, ageLowerBound, ageUpperBound, yearsWorkedLowerBound, yearsWorkedUpperBound, salaryLowerBound, salaryUpperBound, isFired);
     } 
 ).RequireAuthorization("Level3");
 
@@ -295,14 +294,14 @@ agenda.MapDelete("/", async (BasicRESTBusiness<DayStatsDTO> basicRESTBusiness) =
 
 //Agenda Http Query Methods
 agenda.MapGet("/query/", async(
-    ComplexRESTService complexRESTService, DateTime? dateSearch, int totalConsumerLowerBound = 0, int totalConsumerUpperBound = int.MaxValue, int totalProfitLowerBound = 0, int totalProfitUpperBound = int.MaxValue, int totalCostLowerBound = 0, int totalCostUpperBound = int.MaxValue) => {
-        return await complexRESTService.GetFilteredAgenda(dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
+    ComplexRESTService complexRESTService, DateTime? date, int totalConsumerLowerBound = 0, int totalConsumerUpperBound = int.MaxValue, int totalProfitLowerBound = 0, int totalProfitUpperBound = int.MaxValue, int totalCostLowerBound = 0, int totalCostUpperBound = int.MaxValue) => {
+        return await complexRESTService.GetFilteredAgenda(date, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
     } 
 ).RequireAuthorization("Level3");
 
 agenda.MapDelete("/query/", async(
-    ComplexRESTService complexRESTService, DateTime? dateSearch, int totalConsumerLowerBound = 0, int totalConsumerUpperBound = int.MaxValue, int totalProfitLowerBound = 0, int totalProfitUpperBound = int.MaxValue, int totalCostLowerBound = 0, int totalCostUpperBound = int.MaxValue) => {
-        return await complexRESTService.DeleteFilteredAgenda(dateSearch, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
+    ComplexRESTService complexRESTService, DateTime? date, int totalConsumerLowerBound = 0, int totalConsumerUpperBound = int.MaxValue, int totalProfitLowerBound = 0, int totalProfitUpperBound = int.MaxValue, int totalCostLowerBound = 0, int totalCostUpperBound = int.MaxValue) => {
+        return await complexRESTService.DeleteFilteredAgenda(date, totalConsumerLowerBound, totalConsumerUpperBound, totalProfitLowerBound, totalProfitUpperBound, totalCostLowerBound, totalCostUpperBound);
     } 
 ).RequireAuthorization("Level3");
 
