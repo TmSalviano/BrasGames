@@ -46,31 +46,55 @@ sudo pacman -S sqlite
 Information can be found in [Built Using](#built_using) links
 
 
-!!! I NEED TO DO THIS !!!
 ## 🎈 Usage <a name="usage"></a>
 
 For these to work the application must be running.
+If you logged in with cookies enabled remove "Authorization Bearer {key}" from the request header.
+
 #### REST Client VsCode Extension
 
-#### Curl
+Go to BrasGames/Identity/HttpDemos/ and BrasGames/HttpDemos/ folders for pre-made API endpoint requests.
 
-#### Postman
+#### Curl and Postman
+
+You can also make requests with Curl or through Postman. Here are some curl request examples to my API:
+
+**1. Logout Endpoint** (Requires Authorization):
+```c
+  curl -X POST http://yourapi.com/identity/logout \
+  -H "Authorization: Bearer YOUR_TOKEN_HERE" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+**2. Get All Games Endpoint** (Requires Authorization):
+```c
+curl -X GET http://yourapi.com/service/game/ \
+-H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
+**3. Delete All Employees Endpoint** (Requires Authorization):
+```c
+curl -X DELETE http://yourapi.com/business/employee/ \
+-H "Authorization: Bearer YOUR_TOKEN_HERE"
+```
 
 
-!!! MAYBE I NEED TO DO THIS AND THEN IT'S COMPLETE !!!
 ## 🚀 Deployment <a name = "deployment"></a>
 
 To be added
 
 ## ⛏️ Built Using <a id="built-using" name = "built_using"></a>
 
-- <p>
+- <p> - 
   <a href="https://learn.microsoft.com/pt-br/dotnet/csharp/" target="_blank" rel="noreferrer"> 
     <img src="https://github.com/devicons/devicon/blob/master/icons/csharp/csharp-line.svg" alt="csharp" width="40" height="40"/> 
   </a> ->  Programming Language
 </p>
+<p>
 - [ASP.NET CORE](https://dotnet.microsoft.com/pt-br/apps/aspnet) - Framework
+</p>
+<p>
 - [SQLite](https://www.sqlite.org/) - Database
+</p>
 
 ## ✍️ Authors <a name = "TiagomSalviano"></a>
 
